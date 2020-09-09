@@ -40,7 +40,7 @@ int Inicio::getIdCliente(){
 void Inicio::on_btnRegistarr_clicked()
 {
     QString nombre = ui->txtNombre->text(), apePat = ui->txtApPat->text(), apeMat = ui->txtApMat->text(), dir = ui->txtDir->text(), tel = ui->txtTel->text();
-    //QDate dob = ui->dteFechaNac->date();
+    QDate dob = ui->dteFechaNac->date();
     QSqlQuery registro;
     QSqlQuery registroC;
     int idCli = getIdCliente() + 1000;
@@ -48,8 +48,8 @@ void Inicio::on_btnRegistarr_clicked()
     QString idCliente = QString::number(idCli);
     if(conexion.open()){
         qDebug() << "Conexion establecia";
-        registroC.prepare("CALL REGISTRARCLIENTE("+idCliente+",'"+nombre+"','"+apePat+"','"+apeMat+"','2000-01-01',"+tel+",'"+dir+"');");
-        //registroC.bindValue(":FNAC", dob);
+        registroC.prepare("CALL REGISTRARCLIENTE("+idCliente+",'"+nombre+"','"+apePat+"','"+apeMat+"',:FNAC,"+tel+",'"+dir+"');");
+        registroC.bindValue(":FNAC", dob);
         if(registroC.exec()){
             qDebug() << "Query ejecutado";
         }else {
