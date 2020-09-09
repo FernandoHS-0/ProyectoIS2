@@ -136,7 +136,7 @@ color: white;</string>
       <string>Tipo de reservación:</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="TipoReservacion">
      <property name="geometry">
       <rect>
        <x>330</x>
@@ -219,7 +219,7 @@ QCalendarWidget{
          <string>Hora de llegada:</string>
         </property>
        </widget>
-       <widget class="QTimeEdit" name="timeEdit">
+       <widget class="QTimeEdit" name="HoraLlegada">
         <property name="geometry">
          <rect>
           <x>191</x>
@@ -242,7 +242,7 @@ QCalendarWidget{
          <string>Hora de salida:</string>
         </property>
        </widget>
-       <widget class="QTimeEdit" name="timeEdit_2">
+       <widget class="QTimeEdit" name="HoraSalida">
         <property name="geometry">
          <rect>
           <x>451</x>
@@ -278,7 +278,7 @@ QCalendarWidget{
          <string>Fecha:</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="BotonAgregar">
         <property name="geometry">
          <rect>
           <x>280</x>
@@ -338,7 +338,7 @@ QCalendarWidget{
 	border: 1px solid #A1C1E6;
 }</string>
        </property>
-       <widget class="QCalendarWidget" name="calendarWidget_2">
+       <widget class="QCalendarWidget" name="CalendarioInicio">
         <property name="geometry">
          <rect>
           <x>40</x>
@@ -402,7 +402,7 @@ QPushButton:Hover{
          <string>Finaliza</string>
         </property>
        </widget>
-       <widget class="QCalendarWidget" name="calendarWidget_3">
+       <widget class="QCalendarWidget" name="CalendarioFinaliza">
         <property name="geometry">
          <rect>
           <x>360</x>
