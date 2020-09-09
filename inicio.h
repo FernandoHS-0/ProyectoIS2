@@ -29,6 +29,7 @@ private slots:
 private:
     Ui::Inicio *ui;
     QSqlDatabase conexion;
+    int getIdCliente();
 };
 
 #endif // INICIO_H
