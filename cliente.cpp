@@ -24,7 +24,7 @@ void Cliente::on_BotonAgregar_clicked()
     qDebug()<< tipo;
     QDate FechaInicio = ui->CalendarioInicio->selectedDate();
     QDate FechaFinaliza = ui->CalendarioFinaliza->selectedDate();
-    QTime HoraLlegada=ui->HoraLlegada->time();
+    QTime HoraLlegada=ui->HoraLlegada->set;
     QTime HoraSalida=ui->HoraSalida->time();
 
     if(tipo=="Estandar"){
