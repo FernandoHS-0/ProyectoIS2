@@ -6,6 +6,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDebug>
+#include "cliente.h"
+#include "contenedor.h"
 
 namespace Ui {
 class Inicio;
@@ -25,6 +27,8 @@ private slots:
     void on_pushButton_5_clicked();
 
     void on_btnRegistarr_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::Inicio *ui;

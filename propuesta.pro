@@ -26,11 +26,13 @@ CONFIG += c++11
 
 SOURCES += \
         cliente.cpp \
+        contenedor.cpp \
         main.cpp \
         inicio.cpp
 
 HEADERS += \
         cliente.h \
+        contenedor.h \
         inicio.h
 
 FORMS += \

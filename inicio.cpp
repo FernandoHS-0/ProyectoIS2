@@ -61,3 +61,33 @@ void Inicio::on_btnRegistarr_clicked()
     }
 
 }
+
+void Inicio::on_pushButton_clicked()
+{
+    int noCliente = ui->txtNoCliente->text().toInt();
+    QSqlQuery sesion;
+    conexion.open();
+    sesion.prepare("SELECT u.IdUsuario, u.Nombre, u.ApellidoP, u.apellidoM, u.FechaN, u.Telefono, u.Direccion, c.Mensual FROM Usuario AS u INNER JOIN Cliente AS c ON u.IdUsuario = c.IdUsuario WHERE u.IdUsuario = :noC;");
+    sesion.bindValue(":noC", noCliente);
+    sesion.exec();
+    while (sesion.next()) {
+        qDebug() << "Query ejecutado";
+        qDebug() << "Id devuelto: " << sesion.value(0).toInt();
+        if(sesion.value(0).toInt() == noCliente){
+            QString name = sesion.value(1).toString(),
+                    lastP = sesion.value(2).toString(),
+                    lastM = sesion.value(3).toString(),
+                    adress = sesion.value(6).toString();
+            QDate dob = sesion.value(4).toDate();
+            int phone = sesion.value(5).toInt(),
+                    nCl = sesion.value(0).toInt(),
+                    month = sesion.value(7).toInt();
+            clienteContenido sesion(name, lastP, lastM, adress, dob, phone, nCl, month);
+            Cliente pd(&sesion, this);
+            pd.exec();
+        }else{
+            qDebug() << "Cliente no encontrado";
+        }
+    }
+
+}

@@ -72,7 +72,7 @@ QLineEdit{
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>47</y>
+        <y>79</y>
         <width>91</width>
         <height>21</height>
        </rect>
@@ -81,34 +81,11 @@ QLineEdit{
        <string>No. Cliente:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>90</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Contraseña:</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="txtNoCliente">
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>50</y>
-        <width>181</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>90</y>
+        <y>80</y>
         <width>181</width>
         <height>20</height>
        </rect>
