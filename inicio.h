@@ -6,6 +6,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QMessageBox>
 #include "cliente.h"
 #include "contenedor.h"
 

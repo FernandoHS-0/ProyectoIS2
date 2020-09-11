@@ -28,7 +28,7 @@ void Inicio::on_pushButton_5_clicked()
 
 int Inicio::getIdCliente(){
     QSqlQuery idCliente;
-    int sigId;
+    int sigId = 0;
     conexion.open();
     idCliente.exec("SELECT COUNT(IdUsuario) FROM Cliente;");
     while (idCliente.next()) {
@@ -39,31 +39,46 @@ int Inicio::getIdCliente(){
 
 void Inicio::on_btnRegistarr_clicked()
 {
-    QString nombre = ui->txtNombre->text(), apePat = ui->txtApPat->text(), apeMat = ui->txtApMat->text(), dir = ui->txtDir->text(), tel = ui->txtTel->text();
-    QDate dob = ui->dteFechaNac->date();
-    QSqlQuery registro;
-    QSqlQuery registroC;
     int idCli = getIdCliente() + 1000;
-    qDebug() << "Id a insertar: " << idCli;
-    QString idCliente = QString::number(idCli);
-    if(conexion.open()){
-        qDebug() << "Conexion establecia";
-        registroC.prepare("CALL REGISTRARCLIENTE("+idCliente+",'"+nombre+"','"+apePat+"','"+apeMat+"',:FNAC,"+tel+",'"+dir+"');");
-        registroC.bindValue(":FNAC", dob);
-        if(registroC.exec()){
-            qDebug() << "Query ejecutado";
-        }else {
-            qDebug() << "Puro chile con el query";
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Sus datos son correctos?"));
+    info.setText("Su número de cliente es: "+ QString::number(idCli) +"\nUselo para iniciar sesion");
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        QString nombre = ui->txtNombre->text(), apePat = ui->txtApPat->text(), apeMat = ui->txtApMat->text(), dir = ui->txtDir->text(), tel = ui->txtTel->text();
+        QDate dob = ui->dteFechaNac->date();
+        QSqlQuery registro;
+        QSqlQuery registroC;
+
+        qDebug() << "Id a insertar: " << idCli;
+        QString idCliente = QString::number(idCli);
+        if(conexion.open()){
+            qDebug() << "Conexion establecia";
+            registroC.prepare("CALL REGISTRARCLIENTE("+idCliente+",'"+nombre+"','"+apePat+"','"+apeMat+"',:FNAC,"+tel+",'"+dir+"');");
+            registroC.bindValue(":FNAC", dob);
+            if(registroC.exec()){
+                conexion.close();
+                info.exec();
+                qDebug() << "Query ejecutado";
+            }else {
+                qDebug() << "Puro chile con el query";
+            }
+        }else{
+            qDebug() << "Base de datos no abierta";
         }
-        conexion.close();
-    }else{
-        qDebug() << "Base de datos no abierta";
     }
+
 
 }
 
 void Inicio::on_pushButton_clicked()
 {
+    QMessageBox info;
+    info.setText("Número de usuario no encontrado");
+    QAbstractButton * acept = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
     int noCliente = ui->txtNoCliente->text().toInt();
     QSqlQuery sesion;
     conexion.open();
@@ -73,7 +88,10 @@ void Inicio::on_pushButton_clicked()
     while (sesion.next()) {
         qDebug() << "Query ejecutado";
         qDebug() << "Id devuelto: " << sesion.value(0).toInt();
-        if(sesion.value(0).toInt() == noCliente){
+        if(sesion.value(0).toInt() != noCliente){
+            info.exec();
+            qDebug() << "Cliente no encontrado";
+        }else{
             QString name = sesion.value(1).toString(),
                     lastP = sesion.value(2).toString(),
                     lastM = sesion.value(3).toString(),
@@ -85,8 +103,6 @@ void Inicio::on_pushButton_clicked()
             clienteContenido sesion(name, lastP, lastM, adress, dob, phone, nCl, month);
             Cliente pd(&sesion, this);
             pd.exec();
-        }else{
-            qDebug() << "Cliente no encontrado";
         }
     }
 
