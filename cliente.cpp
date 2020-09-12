@@ -44,7 +44,7 @@ void Cliente::on_agendarEst_clicked()
         QTime llegada = ui->estLlegada->time(),
                 salida = ui->estSalida->time();
         QSqlQuery reservar;
-        reservar.prepare("INSERT INTO ReservacionUnica SET Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida, idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 1), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU);");
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 1), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
         reservar.bindValue(":date", fechaR);
         reservar.bindValue(":llegada", llegada);
         reservar.bindValue(":salida", salida);
@@ -93,7 +93,7 @@ void Cliente::on_agendarMensual_clicked()
         QTime llegada(7,00,00),
                 salida(15,00,00);
         QSqlQuery reservar;
-        reservar.prepare("INSERT INTO ReservacionMensual SET NoReservacion = 1, FechaInicio = :dateI, FechaFin = :dateF, HoraEntrada = :llegada, HoraSalida = :salida, idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 1), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU);");
+        reservar.prepare("INSERT INTO ReservacionMensual SET  idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 1), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), FechaInicio = :dateI, FechaFin = :dateF, HoraEntrada = :llegada, HoraSalida = :salida,;");
         reservar.bindValue(":date", fechaR);
         reservar.bindValue(":llegada", llegada);
         reservar.bindValue(":salida", salida);
