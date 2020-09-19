@@ -1,5 +1,8 @@
 #include "cliente.h"
 #include "ui_cliente.h"
+#include <QStandardItemModel>
+#include <QSqlError>
+#include <QTime>
 
 Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
     QDialog(parent),
@@ -10,6 +13,38 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
     conexion = QSqlDatabase::addDatabase("QODBC");
     conexion.setUserName("root");
     conexion.setDatabaseName("ParkingALot");
+
+    QStringList titulos;
+    titulos << "ID Usuario" << "ID Reservacion" << "Num Espacio" << "Fecha " << "Hora Entrada " << "Hora Salida ";
+    ui->tableWidget->setColumnCount(6);
+    ui->tableWidget->setHorizontalHeaderLabels(titulos);
+
+     if(conexion.open()){
+         QSqlQuery Prueba;
+         IDUsuario = ses->getID();
+         if(Prueba.exec("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA from reservacionunica WHERE IDUSUARIO ="+IDUsuario )){
+             while(Prueba.next()){
+                 QString idUsuario = Prueba.value(0).toString();
+                 QString idReserva = Prueba.value(1).toString();
+                 QString NumEspacio = Prueba.value(2).toString();
+                 QString Fecha = Prueba.value(3).toString();
+                 QString HoraEntrada = Prueba.value(4).toString();
+                 QString HoraSalida = Prueba.value(5).toString();
+
+                 ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(idUsuario));
+                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(idReserva));
+                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(NumEspacio));
+                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(Fecha));
+                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(HoraEntrada));
+                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(HoraSalida));
+             }
+         }
+         Prueba.lastError();
+
+
+     }
+
 }
 
 Cliente::~Cliente()
@@ -84,11 +119,12 @@ void Cliente::on_agendarMensual_clicked()
     QMessageBox mensaje, info;
     mensaje.setText(tr("¿Confirmar reservación?"));
     info.setText(tr("Su reservación fue realizada"));
-    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
-    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+ //   QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+ //   QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+ //   QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
 
     mensaje.exec();
+    /*
     if(mensaje.clickedButton() == confirmar){
         QTime llegada(7,00,00),
                 salida(15,00,00);
@@ -108,4 +144,54 @@ void Cliente::on_agendarMensual_clicked()
             qDebug() << "Fallo la reservacion";
         }
     }
+    */
+}
+
+
+void Cliente::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+
+void Cliente::on_Actualizar_clicked()
+{
+
+    //se obtiene el valor cambiado desde qtable gracias a la funcion item para la columna, data para el dato de la casilla
+    QString HoraSalidaAct;
+    QString HoraEntradaAct;
+    HoraEntradaAct = ui->tableWidget->item(0,4)->data(0).toString();
+    HoraSalidaAct = ui->tableWidget->item(0,5)->data(0).toString();
+    qDebug() << HoraSalidaAct;
+
+    /*comparar horas y minutos
+    QTime t1 = QTime::fromString(HoraEntradaAct);
+    QTime t2 = QTime::fromString(HoraSalidaAct);
+    if(t2.hour() >= t1.hour() && (t1.minute() - t2.minute() != 0) ){
+    */
+
+    //
+    //Mensaje de confirmacion para la actualizacion
+    QMessageBox message, informacion;
+    message.setText(tr("¿Confirmar actualizacion de horario?"));
+    informacion.setText(tr("Su actualizacion fue realizada exitosamente."));
+    QAbstractButton * confirmar = message.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = message.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = informacion.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    message.exec();
+    if(message.clickedButton() == confirmar){
+
+        if(conexion.open()){
+        QSqlQuery ExtenderReservacion;
+            if(ExtenderReservacion.exec("Update reservacionunica set HoraSalida = '"+HoraSalidaAct+"' where "+IDUsuario))
+            qDebug() << "Si calo";
+        }
+        else{
+           qDebug() << "No calo";
+        }
+
+    }
+
 }

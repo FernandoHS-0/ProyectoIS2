@@ -16,9 +16,11 @@ class clienteContenido{
         int tel, noC;
         QDate dob;
         bool mensual;
+        QString idCliente;
 
         clienteContenido();
-        clienteContenido(QString, QString, QString, QString, QDate, int, int, bool);
+        clienteContenido(QString, QString, QString, QString, QDate, int, int, bool,QString);
+        QString getID();
 };
 
 #endif // CONTENEDOR_H

@@ -87,6 +87,7 @@ void Inicio::on_pushButton_clicked()
     sesion.exec();
     while (sesion.next()) {
         qDebug() << "Query ejecutado";
+        QString idUsuario =  sesion.value(0).toString();
         qDebug() << "Id devuelto: " << sesion.value(0).toInt();
         if(sesion.value(0).toInt() != noCliente){
             info.exec();
@@ -100,7 +101,7 @@ void Inicio::on_pushButton_clicked()
             int phone = sesion.value(5).toInt(),
                     nCl = sesion.value(0).toInt(),
                     month = sesion.value(7).toInt();
-            clienteContenido sesion(name, lastP, lastM, adress, dob, phone, nCl, month);
+            clienteContenido sesion(name, lastP, lastM, adress, dob, phone, nCl, month,idUsuario);
             Cliente pd(&sesion, this);
             pd.exec();
         }

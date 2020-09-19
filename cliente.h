@@ -34,10 +34,15 @@ private slots:
 
     void on_agendarMensual_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_Actualizar_clicked();
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;
     clienteContenido *sesionCliente;
+    QString IDUsuario;
 };
 
 #endif // CLIENTE_H
