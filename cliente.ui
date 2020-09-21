@@ -80,7 +80,7 @@ QPushButton:Hover{
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>230</y>
+     <y>350</y>
      <width>91</width>
      <height>81</height>
     </rect>
@@ -396,41 +396,99 @@ QPushButton:Hover{
    </widget>
    <widget class="QWidget" name="page_2"/>
    <widget class="QWidget" name="widget_3">
-    <widget class="QLabel" name="label_5">
+    <widget class="QWidget" name="widget_4" native="true">
      <property name="geometry">
       <rect>
-       <x>300</x>
-       <y>10</y>
-       <width>291</width>
-       <height>81</height>
+       <x>30</x>
+       <y>30</y>
+       <width>661</width>
+       <height>481</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Extender reservacion</string>
+     <property name="styleSheet">
+      <string notr="true">QWidget{
+	background-color: white;
+}
+
+QLabel{
+	font: 12pt &quot;Corbel&quot;;
+	color: black,
+}
+
+QLineEdit{
+	border: 1px solid #A1C1E6;
+}
+
+QTimeEdit{
+	border: 1px solid #A1C1E6;
+	font: 10pt &quot;Corbel&quot;;
+}
+
+QCalendarWidget{
+	border: 1px solid #A1C1E6;
+}</string>
      </property>
-    </widget>
-    <widget class="QTableWidget" name="tableWidget">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>60</y>
-       <width>681</width>
-       <height>301</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Actualizar">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>430</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Actualizar</string>
-     </property>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>150</y>
+        <width>511</width>
+        <height>161</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Actualizar">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>370</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	background-color: #2A4161;
+	color: white;
+	font: 10pt &quot;Corbel&quot;;
+	border: none;
+}
+
+QPushButton:Hover{
+	background-color: #C2C9F2;
+}</string>
+      </property>
+      <property name="text">
+       <string>Actualizar</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>0</y>
+        <width>141</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Extender reservacion</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>80</y>
+        <width>211</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Edite la nueva hora de salida </string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -463,14 +521,27 @@ QPushButton:Hover{
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>370</y>
+     <x>0</x>
+     <y>220</y>
      <width>121</width>
-     <height>23</height>
+     <height>121</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	image: url(:/img/img/extender.png);
+}
+
+QPushButton:Hover{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	image: url(:/img/img/extender_hover.png);
+}</string>
+   </property>
    <property name="text">
-    <string>Extender reserva</string>
+    <string/>
    </property>
   </widget>
  </widget>

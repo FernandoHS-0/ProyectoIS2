@@ -41,8 +41,6 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
              }
          }
          Prueba.lastError();
-
-
      }
 
 }
@@ -119,12 +117,11 @@ void Cliente::on_agendarMensual_clicked()
     QMessageBox mensaje, info;
     mensaje.setText(tr("¿Confirmar reservación?"));
     info.setText(tr("Su reservación fue realizada"));
- //   QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
- //   QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
- //   QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
 
     mensaje.exec();
-    /*
     if(mensaje.clickedButton() == confirmar){
         QTime llegada(7,00,00),
                 salida(15,00,00);
@@ -144,7 +141,6 @@ void Cliente::on_agendarMensual_clicked()
             qDebug() << "Fallo la reservacion";
         }
     }
-    */
 }
 
 

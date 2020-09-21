@@ -12,5 +12,7 @@
         <file>img/estadoCuenta_Hover.png</file>
         <file>img/logout.png</file>
         <file>img/logout_hover.png</file>
+        <file>img/extender.png</file>
+        <file>img/extender_hover.png</file>
     </qresource>
 </RCC>
