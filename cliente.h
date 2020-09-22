@@ -40,6 +40,10 @@ private slots:
 
     void on_modificar_clicked();
 
+    void on_Reservaciones_currentTextChanged(const QString &arg1);
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;

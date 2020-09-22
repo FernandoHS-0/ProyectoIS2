@@ -220,3 +220,55 @@ void Cliente::on_modificar_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
+
+void Cliente::on_Reservaciones_currentTextChanged(const QString &arg1)
+{
+    int idreservacion=arg1.toInt();
+    QSqlQuery Reservaciones;
+    Reservaciones.prepare("Select fecha, horaEntrada, horaSalida from reservacionunica where idReservacionUnica=:Idru ;");
+    Reservaciones.bindValue(":Idru", idreservacion);
+    if(Reservaciones.exec()){
+        while(Reservaciones.next()){
+            QDate Fecha=Reservaciones.value(0).toDate();
+            QTime Llegada =Reservaciones.value(1).toTime();
+            QTime Salida =Reservaciones.value(2).toTime();
+            ui->NuevaFecha->setDate(Fecha);
+            ui->NuevaLlegada->setTime(Llegada);
+            ui->NuevaSalida->setTime(Salida);
+
+        }
+    }
+}
+
+void Cliente::on_pushButton_2_clicked()
+{
+    QMessageBox mensaje;
+        QMessageBox info;
+
+        mensaje.setText("Confirmar modificación de reservación");
+        info.setText("Su reservacion ha sido modificada");
+
+        mensaje.setIcon(QMessageBox::Warning);
+        QAbstractButton * btnSi = mensaje.addButton(tr("Confirmar"), QMessageBox::YesRole);
+        QAbstractButton * btnNo = mensaje.addButton(tr("Cancelar"), QMessageBox::NoRole);
+
+        info.setIcon(QMessageBox::Information);
+        QAbstractButton * btnAceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+        mensaje.exec();
+        if(mensaje.clickedButton() == btnSi){
+            QSqlQuery modificacion;
+            QDate modf=ui->NuevaFecha->date();
+            QTime modl=ui->NuevaLlegada->time(), mods=ui->NuevaSalida->time();
+            int NoReservacion=ui->Reservaciones->currentText().toInt();
+            modificacion.prepare("UPDATE reservacionunica SET fecha=:modf, horaEntrada=:modl, horaSalida=:mods WHERE idReservacionUnica=:Idru");
+            modificacion.bindValue(":modf", modf);
+            modificacion.bindValue(":modl", modl);
+            modificacion.bindValue(":mods", mods);
+            modificacion.bindValue(":Idru", NoReservacion);
+            if(modificacion.exec()){
+                info.exec();
+            }
+
+        }
+}
