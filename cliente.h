@@ -38,6 +38,8 @@ private slots:
 
     void on_Actualizar_clicked();
 
+    void on_modificar_clicked();
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;

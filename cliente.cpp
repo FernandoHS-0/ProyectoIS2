@@ -41,6 +41,30 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
              }
          }
          Prueba.lastError();
+
+         QStringList titulos2;
+         ui->Registros->setColumnCount(4);
+         titulos2 << "Fecha" << "Hora de entrada" << "Hora de salida" << "Numero Reservacion";
+         ui->Registros->setHorizontalHeaderLabels(titulos2);
+         QSqlQuery Registros;
+         Registros.prepare("SELECT R.fecha, R.horaEntrada, R.horaSalida, R.IdReservacionUnica FROM usuario as U INNER JOIN cliente as C ON U.idUsuario=C.idUsuario INNER JOIN reservacionunica as R ON C.idUsuario=R.idUsuario WHERE U.idUsuario=:IdU;");
+         Registros.bindValue(":IdU", sesionCliente->noC);
+         if(Registros.exec()){
+           while(Registros.next()){
+                QString fec = Registros.value(0).toString();
+                QString he = Registros.value(1).toString();
+                QString hs = Registros.value(2).toString();
+                QString idr = Registros.value(3).toString();
+
+                 ui->Registros->insertRow(ui->Registros->rowCount());
+                 ui->Registros->setItem(ui->Registros->rowCount()-1,0,new QTableWidgetItem(fec));
+                 ui->Registros->setItem(ui->Registros->rowCount()-1,1,new QTableWidgetItem(he));
+                 ui->Registros->setItem(ui->Registros->rowCount()-1,2,new QTableWidgetItem(hs));
+                 ui->Registros->setItem(ui->Registros->rowCount()-1,3,new QTableWidgetItem(idr));
+
+                 ui->Reservaciones->addItem(Registros.value(3).toString());
+           }
+       }
      }
 
 }
@@ -190,4 +214,9 @@ void Cliente::on_Actualizar_clicked()
 
     }
 
+}
+
+void Cliente::on_modificar_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
 }
