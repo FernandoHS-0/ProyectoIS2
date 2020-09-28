@@ -31,6 +31,14 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_clickaqui_clicked();
+
+    void on_BotonEntrarAlternativo_clicked();
+
+    void on_IniciaSesionAlt_clicked();
+
+    void on_RegistrarseAlt_clicked();
+
 private:
     Ui::Inicio *ui;
     QSqlDatabase conexion;

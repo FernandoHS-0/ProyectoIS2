@@ -17,6 +17,7 @@ class clienteContenido{
         QDate dob;
         bool mensual;
         QString idCliente;
+        QString Matricula;
 
         clienteContenido();
         clienteContenido(QString, QString, QString, QString, QDate, int, int, bool,QString);

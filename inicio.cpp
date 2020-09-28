@@ -9,11 +9,17 @@ Inicio::Inicio(QWidget *parent) :
     conexion = QSqlDatabase::addDatabase("QODBC");
     conexion.setUserName("root");
     conexion.setDatabaseName("ParkingALot");
+
 }
 
 Inicio::~Inicio()
 {
     delete ui;
+}
+
+void Inicio::on_clickaqui_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void Inicio::on_pushButton_2_clicked()
@@ -25,6 +31,18 @@ void Inicio::on_pushButton_5_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
+
+void Inicio::on_IniciaSesionAlt_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void Inicio::on_RegistrarseAlt_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
 
 int Inicio::getIdCliente(){
     QSqlQuery idCliente;
@@ -82,7 +100,7 @@ void Inicio::on_pushButton_clicked()
     int noCliente = ui->txtNoCliente->text().toInt();
     QSqlQuery sesion;
     conexion.open();
-    sesion.prepare("SELECT u.IdUsuario, u.Nombre, u.ApellidoP, u.apellidoM, u.FechaN, u.Telefono, u.Direccion, c.Mensual FROM Usuario AS u INNER JOIN Cliente AS c ON u.IdUsuario = c.IdUsuario WHERE u.IdUsuario = :noC;");
+    sesion.prepare("SELECT u.IdUsuario, u.Nombre, u.ApellidoP, u.apellidoM, u.FechaN, u.Telefono, u.Direccion, u.Matricula, c.Mensual FROM Usuario AS u INNER JOIN Cliente AS c ON u.IdUsuario = c.IdUsuario WHERE u.IdUsuario = :noC;");
     sesion.bindValue(":noC", noCliente);
     sesion.exec();
     while (sesion.next()) {
@@ -96,7 +114,8 @@ void Inicio::on_pushButton_clicked()
             QString name = sesion.value(1).toString(),
                     lastP = sesion.value(2).toString(),
                     lastM = sesion.value(3).toString(),
-                    adress = sesion.value(6).toString();
+                    adress = sesion.value(6).toString(),
+                    mat = sesion.value(7).toString();
             QDate dob = sesion.value(4).toDate();
             int phone = sesion.value(5).toInt(),
                     nCl = sesion.value(0).toInt(),
@@ -108,3 +127,41 @@ void Inicio::on_pushButton_clicked()
     }
 
 }
+
+void Inicio::on_BotonEntrarAlternativo_clicked()
+{
+
+    QMessageBox information;
+    information.setText("Matricula no encontrada.");
+    QAbstractButton * acept = information.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QString Matricula = ui->txtMatricula->text();
+    QSqlQuery login;
+    conexion.open();
+    login.prepare("SELECT u.IdUsuario, u.Nombre, u.ApellidoP, u.apellidoM, u.FechaN, u.Telefono, u.Direccion, u.Matricula, c.Mensual FROM Usuario AS u INNER JOIN Cliente AS c ON u.IdUsuario = c.IdUsuario WHERE u.Matricula = :noC;");
+    login.bindValue(":noC", Matricula);
+    login.exec();
+    while (login.next()) {
+        qDebug() << "Query ejecutado";
+        QString Mat =  login.value(7).toString();
+        qDebug() << "Matricula devuelta: " << login.value(7).toString();
+        if(login.value(7).toString() != Matricula){
+            information.exec();
+            qDebug() << "Cliente no encontrado";
+        }else{
+            QString name = login.value(1).toString(),
+                    lastP = login.value(2).toString(),
+                    lastM = login.value(3).toString(),
+                    adress = login.value(6).toString(),
+                    mat = login.value(7).toString();
+            QDate dob = login.value(4).toDate();
+            int phone = login.value(5).toInt(),
+                    nCl = login.value(0).toInt(),
+                    month = login.value(7).toInt();
+            clienteContenido login(name, lastP, lastM, adress, dob, phone, nCl, month,Mat);
+            Cliente pd(&login, this);
+            pd.exec();
+        }
+    }
+
+}
+
