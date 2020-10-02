@@ -10,7 +10,7 @@ clienteContenido::clienteContenido(){
 
 }
 
-clienteContenido::clienteContenido(QString nmb, QString aP, QString aM, QString adr, QDate fecha, int pne, int nCl, bool mens){
+clienteContenido::clienteContenido(QString nmb, QString aP, QString aM, QString adr, QDate fecha, int pne, int nCl, bool mens,QString id){
     nombre = nmb;
     apPat = aP;
     apMat = aM;
@@ -19,4 +19,10 @@ clienteContenido::clienteContenido(QString nmb, QString aP, QString aM, QString 
     tel = pne;
     noC = nCl;
     mensual = mens;
+    idCliente = id;
+}
+
+QString clienteContenido::getID()
+{
+    return idCliente;
 }
