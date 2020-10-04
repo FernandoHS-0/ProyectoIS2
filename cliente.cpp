@@ -3,6 +3,10 @@
 #include <QStandardItemModel>
 #include <QSqlError>
 #include <QTime>
+#include <QPrinter>
+#include <QPdfWriter>
+#include <QTextDocument>
+#include <QDesktopServices>
 
 Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
     QDialog(parent),
@@ -18,6 +22,8 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
     titulos << "ID Usuario" << "ID Reservacion" << "Num Espacio" << "Fecha " << "Hora Entrada " << "Hora Salida ";
     ui->tableWidget->setColumnCount(6);
     ui->tableWidget->setHorizontalHeaderLabels(titulos);
+
+
 
      if(conexion.open()){
          QSqlQuery Prueba;
@@ -38,6 +44,7 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
                  ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(Fecha));
                  ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(HoraEntrada));
                  ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(HoraSalida));
+
              }
          }
          Prueba.lastError();
@@ -68,19 +75,23 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
      }
 // empieza el query
      QSqlQuery Nombre;
-     QString nomb;
-     QString ApellidoP;
-     QString ApellidoM;
-     int Telefono;
-     int matricula;
-
-     Nombre.prepare("Select * from usuario;");
+     QString Telefono;
+     QString direccion;
+    ui->EstadoCuentaWidget->setVisible(false);
+    ui->InformacionAdicional->setVisible(false);
+     Nombre.prepare("Select * from usuario where idUsuario='"+IDUsuario+"'");
      Nombre.exec();
+     Nombre.next();
      nomb=Nombre.value(1).toString();
      ApellidoP=Nombre.value(2).toString();
      ApellidoM=Nombre.value(3).toString();
-     Telefono=Nombre.value(5).toInt();
-     matricula= Nombre.value(7).toInt();
+     Telefono=Nombre.value(5).toString();
+     direccion= Nombre.value(6).toString();
+     ui->LabelNombre->setText(nomb);
+     ui->ApellidoP->setText(ApellidoP);
+     ui->ApellidoM->setText(ApellidoM);
+     ui->Telefono->setText(Telefono);
+     ui->Direccion->setText(direccion);
 
 }
 
@@ -292,3 +303,101 @@ void Cliente::on_estadoCuenta_clicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
 }
+
+
+void Cliente::on_EstadoCuenta_2_clicked(bool checked)
+{
+    qDebug()<<checked;
+    if(checked==1){
+        ui->EstadoCuentaWidget->setVisible(false);
+        ui->InformacionAdicional->setVisible(false);
+        checked=0;
+}
+    else{
+    ui->totalReservaciones->setNum(TotalReservaciones);
+    ui->EstadoCuentaWidget->setVisible(true);
+    ui->InformacionAdicional->setVisible(true);
+
+    QStringList titulos;
+    titulos << "ID Usuario" << "ID Reservacion" << "Num Espacio" << "Fecha " << "Hora Entrada " << "Hora Salida ";
+    ui->Reservas->setColumnCount(6);
+    ui->Reservas->setHorizontalHeaderLabels(titulos);
+
+    QSqlQuery Prueba;
+    if(Prueba.exec("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA from reservacionunica WHERE IDUSUARIO ="+IDUsuario )){
+        while(Prueba.next()){
+            QString idUsuario = Prueba.value(0).toString();
+            QString idReserva = Prueba.value(1).toString();
+            QString NumEspacio = Prueba.value(2).toString();
+            QString Fecha = Prueba.value(3).toString();
+            QString HoraEntrada = Prueba.value(4).toString();
+            QString HoraSalida = Prueba.value(5).toString();
+
+            ui->Reservas->insertRow(ui->Reservas->rowCount());
+            ui->Reservas->setItem(ui->Reservas->rowCount()-1,0,new QTableWidgetItem(idUsuario));
+            ui->Reservas->setItem(ui->Reservas->rowCount()-1,1,new QTableWidgetItem(idReserva));
+            ui->Reservas->setItem(ui->Reservas->rowCount()-1,2,new QTableWidgetItem(NumEspacio));
+            ui->Reservas->setItem(ui->Reservas->rowCount()-1,3,new QTableWidgetItem(Fecha));
+            ui->Reservas->setItem(ui->Reservas->rowCount()-1,4,new QTableWidgetItem(HoraEntrada));
+            ui->Reservas->setItem(ui->Reservas->rowCount()-1,5,new QTableWidgetItem(HoraSalida));
+            TotalReservaciones=TotalReservaciones+1;
+
+        }
+       }
+
+    int montototal=0;
+    QSqlQuery monto;
+    monto.prepare("select  r.idReservacionUnica, t.monto  from reservacionunica as r inner join tarifa as t on t.idTarifa=r.idtarifa  where r.idUsuario='"+IDUsuario+"';");
+   monto.exec();
+   while(monto.next()){
+    montototal=montototal + monto.value(1).toInt();
+   }
+
+ ui->totalReservaciones->setNum(TotalReservaciones);
+ ui->MontoTotal->setNum(montototal);
+
+ /*QSqlQuery prueba2;
+ QString html =
+ "<img class='imageLeft' src='C:/Users/luisd/Desktop/universidad/QT/Estacionamiento/Estacionamiento/Estacionamiento/img/park_b.png' alt='Ed' width='100' height='100'/><strong>"
+ "<h1 style='text-align: center';>Estado de cuenta</h1>"
+ "<hr />"
+ "<h4 style='text-align: left';>A la orden de: "+ApellidoP+" "+ApellidoM+" "+nomb+"</h4>"
+ "<p></p>"
+ "<hr />";
+ prueba2.prepare("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA from reservacionunica WHERE IDUSUARIO ="+IDUsuario);
+
+ "<p>ID&nbsp; &nbsp; No.Espacio&nbsp; &nbsp;Fecha&nbsp; &nbsp;Hora Entrada&nbsp; &nbsp; Hora Salida</p>"
+ "<p>""&nbsp; &nbsp;""&nbsp; &nbsp;""&nbsp; &nbsp;""&nbsp; &nbsp;""</p>"
+ "<hr />"
+ "<p></p>"
+ "<p></p>"
+ "<blockquote>"
+ "<p>PUEBLA,"+QDate::currentDate().toString() +"</p>"
+ "<p>Total de reservaciones: "+TotalReservaciones+"</p>"
+  "<p>Monto total"+montototal+"</p>"
+ "</blockquote>"
+
+ "<p style='text-align: right';>&nbsp; &nbsp; &nbsp;<img class='imageLeft' src='C:/Users/luisd/Desktop/universidad/QT/Estacionamiento/Estacionamiento/Estacionamiento/img/firma.png' alt='Ed' width='50' height='50'/>&nbsp; &nbsp; &nbsp;</p>"
+"<p style='text-align: right';>_________________</p>"
+"<p style='text-align: right';>PARK -A- LOT&nbsp; &nbsp; &nbsp; &nbsp;</p>"
+"<hr />"
+"<p style='text-align: left';></p>";
+
+    QTextDocument document;
+    document.setHtml(html);
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName("/tmp/vale.pdf");
+    printer.setPageMargins(QMarginsF(15, 15, 15, 15));
+
+    document.print(&printer);
+    QDesktopServices::openUrl(QUrl::fromLocalFile("/tmp/vale.pdf"));*/
+
+    }
+}
+
+
+
+

@@ -46,11 +46,19 @@ private slots:
 
     void on_estadoCuenta_clicked();
 
+    void on_EstadoCuenta_2_clicked(bool checked);
+
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;
     clienteContenido *sesionCliente;
     QString IDUsuario;
+    int MontoTotal=0;
+    int TotalReservaciones=0;
+    QString nomb;
+    QString ApellidoP;
+    QString ApellidoM;
 };
 
 #endif // CLIENTE_H
