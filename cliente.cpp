@@ -66,6 +66,21 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
            }
        }
      }
+// empieza el query
+     QSqlQuery Nombre;
+     QString nomb;
+     QString ApellidoP;
+     QString ApellidoM;
+     int Telefono;
+     int matricula;
+
+     Nombre.prepare("Select * from usuario;");
+     Nombre.exec();
+     nomb=Nombre.value(1).toString();
+     ApellidoP=Nombre.value(2).toString();
+     ApellidoM=Nombre.value(3).toString();
+     Telefono=Nombre.value(5).toInt();
+     matricula= Nombre.value(7).toInt();
 
 }
 
@@ -271,4 +286,9 @@ void Cliente::on_pushButton_2_clicked()
             }
 
         }
+}
+
+void Cliente::on_estadoCuenta_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
 }
