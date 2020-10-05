@@ -323,6 +323,14 @@ void Cliente::on_EstadoCuenta_2_clicked(bool checked)
     ui->Reservas->setColumnCount(6);
     ui->Reservas->setHorizontalHeaderLabels(titulos);
 
+    QString html =
+    "<img class='imageLeft' src='C:/Users/luisd/Desktop/universidad/QT/Estacionamiento/Estacionamiento/Estacionamiento/img/park_b.png' alt='Ed' width='100' height='100'/><strong>"
+    "<h1 style='text-align: center';>Estado de cuenta</h1>"
+    "<hr />"
+    "<h4 style='text-align: left';>A la orden de: "+ApellidoP+" "+ApellidoM+" "+nomb+"</h4>"
+    "<p></p>"
+    "<hr />";
+
     QSqlQuery Prueba;
     if(Prueba.exec("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA from reservacionunica WHERE IDUSUARIO ="+IDUsuario )){
         while(Prueba.next()){
@@ -341,40 +349,38 @@ void Cliente::on_EstadoCuenta_2_clicked(bool checked)
             ui->Reservas->setItem(ui->Reservas->rowCount()-1,4,new QTableWidgetItem(HoraEntrada));
             ui->Reservas->setItem(ui->Reservas->rowCount()-1,5,new QTableWidgetItem(HoraSalida));
             TotalReservaciones=TotalReservaciones+1;
+            html += "<p>ID&nbsp; &nbsp; No.Espacio&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hora Entrada&nbsp; &nbsp; Hora Salida</p>"
+             "<p>"+idReserva+"&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+NumEspacio+"&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+Fecha+"&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+HoraEntrada+"&nbsp; &nbsp;&nbsp;"+HoraSalida+"</p>"
+             "<hr />"
+             "<p></p>"
+             "<p></p>";
 
         }
        }
 
     int montototal=0;
     QSqlQuery monto;
+
     monto.prepare("select  r.idReservacionUnica, t.monto  from reservacionunica as r inner join tarifa as t on t.idTarifa=r.idtarifa  where r.idUsuario='"+IDUsuario+"';");
    monto.exec();
    while(monto.next()){
     montototal=montototal + monto.value(1).toInt();
    }
 
+QString total= QString::number(montototal);
+QString reserv= QString::number(TotalReservaciones);
  ui->totalReservaciones->setNum(TotalReservaciones);
  ui->MontoTotal->setNum(montototal);
 
- /*QSqlQuery prueba2;
- QString html =
- "<img class='imageLeft' src='C:/Users/luisd/Desktop/universidad/QT/Estacionamiento/Estacionamiento/Estacionamiento/img/park_b.png' alt='Ed' width='100' height='100'/><strong>"
- "<h1 style='text-align: center';>Estado de cuenta</h1>"
- "<hr />"
- "<h4 style='text-align: left';>A la orden de: "+ApellidoP+" "+ApellidoM+" "+nomb+"</h4>"
- "<p></p>"
- "<hr />";
- prueba2.prepare("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA from reservacionunica WHERE IDUSUARIO ="+IDUsuario);
 
- "<p>ID&nbsp; &nbsp; No.Espacio&nbsp; &nbsp;Fecha&nbsp; &nbsp;Hora Entrada&nbsp; &nbsp; Hora Salida</p>"
- "<p>""&nbsp; &nbsp;""&nbsp; &nbsp;""&nbsp; &nbsp;""&nbsp; &nbsp;""</p>"
- "<hr />"
- "<p></p>"
- "<p></p>"
- "<blockquote>"
+
+
+
+
+ html +="<blockquote>"
  "<p>PUEBLA,"+QDate::currentDate().toString() +"</p>"
- "<p>Total de reservaciones: "+TotalReservaciones+"</p>"
-  "<p>Monto total"+montototal+"</p>"
+ "<p>Total de reservaciones: "+reserv+"</p>"
+  "<p>Monto total: "+total+"</p>"
  "</blockquote>"
 
  "<p style='text-align: right';>&nbsp; &nbsp; &nbsp;<img class='imageLeft' src='C:/Users/luisd/Desktop/universidad/QT/Estacionamiento/Estacionamiento/Estacionamiento/img/firma.png' alt='Ed' width='50' height='50'/>&nbsp; &nbsp; &nbsp;</p>"
@@ -393,7 +399,7 @@ void Cliente::on_EstadoCuenta_2_clicked(bool checked)
     printer.setPageMargins(QMarginsF(15, 15, 15, 15));
 
     document.print(&printer);
-    QDesktopServices::openUrl(QUrl::fromLocalFile("/tmp/vale.pdf"));*/
+    QDesktopServices::openUrl(QUrl::fromLocalFile("/tmp/vale.pdf"));
 
     }
 }
