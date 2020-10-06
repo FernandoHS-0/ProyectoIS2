@@ -71,28 +71,48 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
 
                  ui->Reservaciones->addItem(Registros.value(3).toString());
            }
-       }
-     }
-// empieza el query
-     QSqlQuery Nombre;
-     QString Telefono;
-     QString direccion;
-    ui->EstadoCuentaWidget->setVisible(false);
-    ui->InformacionAdicional->setVisible(false);
-     Nombre.prepare("Select * from usuario where idUsuario='"+IDUsuario+"'");
-     Nombre.exec();
-     Nombre.next();
-     nomb=Nombre.value(1).toString();
-     ApellidoP=Nombre.value(2).toString();
-     ApellidoM=Nombre.value(3).toString();
-     Telefono=Nombre.value(5).toString();
-     direccion= Nombre.value(6).toString();
-     ui->LabelNombre->setText(nomb);
-     ui->ApellidoP->setText(ApellidoP);
-     ui->ApellidoM->setText(ApellidoM);
-     ui->Telefono->setText(Telefono);
-     ui->Direccion->setText(direccion);
+         }
 
+        //empieza el query
+        QSqlQuery Nombre;
+        QString Telefono;
+        QString direccion;
+        ui->EstadoCuentaWidget->setVisible(false);
+        ui->InformacionAdicional->setVisible(false);
+        Nombre.prepare("Select * from usuario where idUsuario='"+IDUsuario+"'");
+        Nombre.exec();
+        Nombre.next();
+        nomb=Nombre.value(1).toString();
+        ApellidoP=Nombre.value(2).toString();
+        ApellidoM=Nombre.value(3).toString();
+        Telefono=Nombre.value(5).toString();
+        direccion= Nombre.value(6).toString();
+        ui->LabelNombre->setText(nomb);
+        ui->ApellidoP->setText(ApellidoP);
+        ui->ApellidoM->setText(ApellidoM);
+        ui->Telefono->setText(Telefono);
+        ui->Direccion->setText(direccion);
+
+        bool overbook=1;
+        QList<QPushButton*> Espacios = {ui->espacio16, ui->espacio17, ui->espacio18, ui->espacio19, ui->espacio20, ui->espacio21, ui->espacio22, ui->espacio23, ui->espacio24, ui->espacio25, ui->espacio26, ui->espacio27, ui->espacio28, ui->espacio29, ui->espacio30, ui->espacio31, ui->espacio32, ui->espacio33, ui->espacio34, ui->espacio35, ui->espacio36, ui->espacio37, ui->espacio38, ui->espacio39, ui->espacio40, ui->espacio41, ui->espacio42, ui->espacio43, ui->espacio44, ui->espacio45, ui->espacio46, ui->espacio47, ui->espacio48, ui->espacio49, ui->espacio50, ui->espacio51, ui->espacio52, ui->espacio53, ui->espacio54, ui->espacio55, ui->espacio56, ui->espacio57, ui->espacio58, ui->espacio59, ui->espacio60};
+        QSqlQuery Lugares;
+        int iterador=0;
+        Lugares.prepare("SELECT Estado FROM Espacio WHERE NoEspacio > 15;");
+        Lugares.exec();
+        while(Lugares.next()){
+            if(Lugares.value(0).toString() != "Libre"){
+                Espacios[iterador]->setStyleSheet("QPushButton{border: 1px solid #ff2747; border-bottom: none; background-color: white;}");
+                Espacios[iterador]->setDisabled(1);
+            }else{
+                overbook = 0;
+            }
+            iterador++;
+        }
+
+        if(overbook == 1){
+            ui->agendarEst->setEnabled(1);
+        }
+     }
 }
 
 Cliente::~Cliente()
@@ -112,7 +132,36 @@ void Cliente::on_comboBox_currentIndexChanged(int index)
 
 void Cliente::on_agendarEst_clicked()
 {
+    QMessageBox overbook;
+    overbook.setText("Actualmente no se encuentran lugares disponibles. ¿Desea reservar en overbooking?\nEl reservar en overbooking no le asegura un lugar, su acceso esta sujeto a que otro usuario no se presente a su reservación, del cual se le cederá su lugar\n¿Esta de acuerdo con esto?");
+    QAbstractButton * btnAceptar = overbook.addButton("Aceptar", QMessageBox::AcceptRole);
+    QAbstractButton * btnCancelar = overbook.addButton("Cancelar", QMessageBox::NoRole);
+    overbook.setIcon(QMessageBox::Information);
 
+    QMessageBox confirmacion;
+    confirmacion.setIcon(QMessageBox::Information);
+    confirmacion.setText("Su reservación ha sido procesada correctamente.");
+    QAbstractButton * oki = confirmacion.addButton("Aceptar", QMessageBox::YesRole);
+
+    overbook.exec();
+
+    if(overbook.clickedButton() == btnAceptar){
+        conexion.open();
+        QDate fecha = ui->calendarioEst->date();
+        QTime hLlegada = ui->estLlegada->time(),
+              hSalida = ui->estSalida->time();
+        QSqlQuery rOver;
+        rOver.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), idPago = null, NoEspacio = null, IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida, HoraEntradaReal = null, HoraSalidaReal = null, Overbooking = 1;");
+        rOver.bindValue(":date", fecha);
+        rOver.bindValue(":llegada", hLlegada);
+        rOver.bindValue(":salida", hSalida);
+        rOver.bindValue(":idU", sesionCliente->noC);
+        if(rOver.exec()){
+            confirmacion.exec();
+            conexion.close();
+        }
+    }
+/*
     QMessageBox mensaje, info;
     mensaje.setText(tr("¿Confirmar reservación?"));
     info.setText(tr("Su reservación fue realizada"));
@@ -140,7 +189,7 @@ void Cliente::on_agendarEst_clicked()
             qDebug() << "Puro chile con el query";
         }
     }
-
+*/
 
 }
 
@@ -163,7 +212,7 @@ void Cliente::on_agendarMensual_clicked()
     conexion.open();
     QDate date = ui->mensualInicio->selectedDate();
     QDate nueva(date.year(), date.month()+1, date.day());
-    QDate fechaR = ui->calendarioEst->selectedDate();
+    //QDate fechaR = ui->calendarioEst->selectedDate();
     QMessageBox mensaje, info;
     mensaje.setText(tr("¿Confirmar reservación?"));
     info.setText(tr("Su reservación fue realizada"));
@@ -177,7 +226,7 @@ void Cliente::on_agendarMensual_clicked()
                 salida(15,00,00);
         QSqlQuery reservar;
         reservar.prepare("INSERT INTO ReservacionMensual SET  idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 1), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), FechaInicio = :dateI, FechaFin = :dateF, HoraEntrada = :llegada, HoraSalida = :salida,;");
-        reservar.bindValue(":date", fechaR);
+        //reservar.bindValue(":date", fechaR);
         reservar.bindValue(":llegada", llegada);
         reservar.bindValue(":salida", salida);
         reservar.bindValue(":idU", sesionCliente->noC);
@@ -404,6 +453,17 @@ QString reserv= QString::number(TotalReservaciones);
     }
 }
 
+void Cliente::on_pushButton_3_clicked()
+{
+    ui->Pisos->setCurrentIndex(0);
+}
 
+void Cliente::on_pushButton_5_clicked()
+{
+    ui->Pisos->setCurrentIndex(1);
+}
 
-
+void Cliente::on_pushButton_6_clicked()
+{
+    ui->Pisos->setCurrentIndex(2);
+}
