@@ -12,8 +12,9 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Cliente)
 {
-    sesionCliente = ses;
+
     ui->setupUi(this);
+    sesionCliente = ses;
     conexion = QSqlDatabase::addDatabase("QODBC");
     conexion.setUserName("root");
     conexion.setDatabaseName("ParkingALot");

@@ -120,9 +120,10 @@ void Inicio::on_pushButton_clicked()
             int phone = sesion.value(5).toInt(),
                     nCl = sesion.value(0).toInt(),
                     month = sesion.value(7).toInt();
-            clienteContenido sesion(name, lastP, lastM, adress, dob, phone, nCl, month,idUsuario);
-            Cliente pd(&sesion, this);
-            pd.exec();
+            actual = new clienteContenido(name, lastP, lastM, adress, dob, phone, nCl, month,idUsuario);
+            this->close();
+            pd = new Cliente(actual, this);
+            pd->show();
         }
     }
 
