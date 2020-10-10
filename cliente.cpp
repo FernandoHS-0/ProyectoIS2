@@ -113,6 +113,23 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
         if(overbook == 1){
             ui->agendarEst->setEnabled(1);
         }
+
+        QSqlQuery extension;
+        extension.prepare("SELECT Fecha, HoraEntradaReal, HoraSalida FROM reservacionunica WHERE idUsuario = :idU;");
+        extension.bindValue(":idU", sesionCliente->noC);
+        if(extension.exec()){
+            while(extension.next()){
+                if(extension.value(0).toDate() == QDate::currentDate()){
+                    QTime hLim(extension.value(2).toTime().hour(), extension.value(2).toTime().minute() - 30);
+                    QTime hora(QTime::currentTime().hour(), QTime::currentTime().minute());
+                    if(extension.value(1).toTime().isNull() && hora < hLim){
+                        ui->pushButton->setEnabled(1);
+                    }
+                }else{
+                    ui->pushButton->setDisabled(1);
+                }
+            }
+        }
      }
 }
 

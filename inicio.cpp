@@ -121,9 +121,8 @@ void Inicio::on_pushButton_clicked()
                     nCl = sesion.value(0).toInt(),
                     month = sesion.value(7).toInt();
             actual = new clienteContenido(name, lastP, lastM, adress, dob, phone, nCl, month,idUsuario);
-            this->close();
             pd = new Cliente(actual, this);
-            pd->show();
+            pd->exec();
         }
     }
 
