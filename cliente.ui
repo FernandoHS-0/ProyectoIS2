@@ -115,7 +115,7 @@ QPushButton:Hover{
     <string notr="true">background-color: #B8BDD9;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QLabel" name="label">
@@ -210,7 +210,7 @@ QCalendarWidget{
         <property name="geometry">
          <rect>
           <x>80</x>
-          <y>320</y>
+          <y>65</y>
           <width>121</width>
           <height>21</height>
          </rect>
@@ -223,7 +223,7 @@ QCalendarWidget{
         <property name="geometry">
          <rect>
           <x>191</x>
-          <y>320</y>
+          <y>65</y>
           <width>118</width>
           <height>22</height>
          </rect>
@@ -233,7 +233,7 @@ QCalendarWidget{
         <property name="geometry">
          <rect>
           <x>350</x>
-          <y>320</y>
+          <y>65</y>
           <width>101</width>
           <height>16</height>
          </rect>
@@ -246,30 +246,17 @@ QCalendarWidget{
         <property name="geometry">
          <rect>
           <x>451</x>
-          <y>320</y>
+          <y>65</y>
           <width>118</width>
           <height>22</height>
          </rect>
         </property>
        </widget>
-       <widget class="QCalendarWidget" name="calendarioEst">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>70</y>
-          <width>341</width>
-          <height>231</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border: 1px solid #A1C1E6;</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_4">
         <property name="geometry">
          <rect>
-          <x>310</x>
-          <y>40</y>
+          <x>80</x>
+          <y>30</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -279,10 +266,13 @@ QCalendarWidget{
         </property>
        </widget>
        <widget class="QPushButton" name="agendarEst">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>280</x>
-          <y>360</y>
+          <x>460</x>
+          <y>370</y>
           <width>111</width>
           <height>31</height>
          </rect>
@@ -300,8 +290,1299 @@ QPushButton:Hover{
 }</string>
         </property>
         <property name="text">
-         <string>Agendar</string>
+         <string>Overbook</string>
         </property>
+       </widget>
+       <widget class="QDateEdit" name="calendarioEst">
+        <property name="geometry">
+         <rect>
+          <x>133</x>
+          <y>26</y>
+          <width>110</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>92</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	border: 1px solid #2A4161;
+	border-bottom: none;
+	font: 10pt &quot;Corbel&quot;;
+}
+
+QPushButton:Hover{
+	border: 1px solid #C2C9F2;
+	border-bottom: none;
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Piso 2</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_5">
+        <property name="geometry">
+         <rect>
+          <x>165</x>
+          <y>92</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	border: 1px solid #2A4161;
+	border-bottom: none;
+	font: 10pt &quot;Corbel&quot;;
+}
+
+QPushButton:Hover{
+	border: 1px solid #C2C9F2;
+	border-bottom: none;
+}</string>
+        </property>
+        <property name="text">
+         <string>Piso 3</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>92</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	border: 1px solid #2A4161;
+	border-bottom: none;
+	font: 10pt &quot;Corbel&quot;;
+}
+
+QPushButton:Hover{
+	border: 1px solid #C2C9F2;
+	border-bottom: none;
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Piso 4</string>
+        </property>
+       </widget>
+       <widget class="QStackedWidget" name="Pisos">
+        <property name="geometry">
+         <rect>
+          <x>89</x>
+          <y>116</y>
+          <width>481</width>
+          <height>241</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white;
+border: 1px solid #2A4161;
+border-top:none;
+</string>
+        </property>
+        <widget class="QWidget" name="Piso2">
+         <widget class="QPushButton" name="espacio28">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E28</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio25">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E25</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio24">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E24</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio20">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E20</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio19">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E19</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio21">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E21</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio17">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E17</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio29">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E29</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio22">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E22</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio16">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>360</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E16</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio18">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>E18</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio26">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E26</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio23">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E23</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio30">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E30</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio27">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E27</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="Piso3">
+         <widget class="QPushButton" name="espacio45">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E45</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio44">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E44</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio39">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E39</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio38">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E38</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio32">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E32</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio31">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>360</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E31</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio33">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>E33</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio34">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E34</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio37">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E37</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio35">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E35</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio36">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E36</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio40">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E40</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio42">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E42</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio43">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E43</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio41">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E41</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="Piso4">
+         <widget class="QPushButton" name="espacio60">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E60</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio59">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E59</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio54">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E54</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio53">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E53</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio47">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E47</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio46">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>360</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E46</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio48">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>E48</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio49">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E49</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio52">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E52</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio50">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E50</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio51">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E51</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio55">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E55</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio57">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>137</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: none;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: 2px solid #A1C1E6;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E57</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio58">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E58</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="espacio56">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>0</y>
+            <width>41</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	border-top: 2px solid #A1C1E6;
+	border-right: 2px solid #A1C1E6;
+	border-left: 2px solid #A1C1E6;
+	border-bottom: none;
+	background-color: white;
+}
+
+QPushButton:Hover{
+	border:2px solid #aaff7f;
+}</string>
+          </property>
+          <property name="text">
+           <string>E56</string>
+          </property>
+         </widget>
+        </widget>
        </widget>
       </widget>
      </widget>
@@ -652,6 +1933,363 @@ QPushButton:Hover{
      </widget>
     </widget>
    </widget>
+   <widget class="QWidget" name="page_3">
+    <widget class="QLabel" name="Logo">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>101</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="img.qrc">:/img/img/park_b.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QWidget" name="EstadoCuentaWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>300</y>
+       <width>481</width>
+       <height>241</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <widget class="QTableWidget" name="Reservas">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>11</y>
+        <width>461</width>
+        <height>221</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="EstadoCuenta_2">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>250</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color: #2A4161;
+	color: white;
+	font: 10pt &quot;Corbel&quot;;
+	border: none;
+}
+
+QPushButton:Hover{
+	background-color: #C2C9F2;
+}</string>
+     </property>
+     <property name="text">
+      <string>Estado de cuenta</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="widget_7" native="true">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>40</y>
+       <width>501</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <widget class="QLabel" name="LabelNombre">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>10</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ApellidoP">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>50</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ApellidoM">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>100</y>
+        <width>121</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Nombre:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Apellido Paterno:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>100</y>
+        <width>121</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Apellido Materno:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>140</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Telefono:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Telefono">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>140</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>140</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Direccion:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Direccion">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>140</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="InformacionAdicional" native="true">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>360</y>
+       <width>191</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>25</y>
+        <width>141</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Total de Reservaciones:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>66</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Monto total:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="totalReservaciones">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>10</y>
+        <width>41</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="MontoTotal">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>60</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+   </widget>
   </widget>
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
@@ -706,6 +2344,8 @@ QPushButton:Hover{
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="img.qrc"/>
+ </resources>
  <connections/>
 </ui>
