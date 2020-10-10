@@ -24,12 +24,10 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
     ui->tableWidget->setColumnCount(6);
     ui->tableWidget->setHorizontalHeaderLabels(titulos);
 
-
-
      if(conexion.open()){
          QSqlQuery Prueba;
          IDUsuario = ses->getID();
-         if(Prueba.exec("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA from reservacionunica WHERE IDUSUARIO ="+IDUsuario )){
+         if(Prueba.exec("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA , HORAENTRADAREAL from reservacionunica WHERE IDUSUARIO ="+IDUsuario )){
              while(Prueba.next()){
                  QString idUsuario = Prueba.value(0).toString();
                  QString idReserva = Prueba.value(1).toString();
@@ -37,6 +35,9 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
                  QString Fecha = Prueba.value(3).toString();
                  QString HoraEntrada = Prueba.value(4).toString();
                  QString HoraSalida = Prueba.value(5).toString();
+                 QString HoraEntradaReal= Prueba.value(6).toString();
+
+                 if(Prueba.value(3).toDate()==QDate::currentDate()  && HoraEntradaReal != NULL ){
 
                  ui->tableWidget->insertRow(ui->tableWidget->rowCount());
                  ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(idUsuario));
@@ -45,7 +46,7 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
                  ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(Fecha));
                  ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(HoraEntrada));
                  ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(HoraSalida));
-
+}
              }
          }
          Prueba.lastError();
@@ -119,14 +120,11 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
         extension.bindValue(":idU", sesionCliente->noC);
         if(extension.exec()){
             while(extension.next()){
-                if(extension.value(0).toDate() == QDate::currentDate()){
-                    QTime hLim(extension.value(2).toTime().hour(), extension.value(2).toTime().minute() - 30);
-                    QTime hora(QTime::currentTime().hour(), QTime::currentTime().minute());
-                    if(extension.value(1).toTime().isNull() && hora < hLim){
-                        ui->pushButton->setEnabled(1);
+                if(extension.value(0).toDate() == QDate::currentDate() && extension.value(1).toString() != NULL){
+                    ui->ExtenderTiempo->setEnabled(1);
                     }
-                }else{
-                    ui->pushButton->setDisabled(1);
+                else{
+                    ui->ExtenderTiempo->setDisabled(1);
                 }
             }
         }
@@ -264,6 +262,7 @@ void Cliente::on_agendarMensual_clicked()
 void Cliente::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
+
 }
 
 
@@ -484,4 +483,9 @@ void Cliente::on_pushButton_5_clicked()
 void Cliente::on_pushButton_6_clicked()
 {
     ui->Pisos->setCurrentIndex(2);
+}
+
+void Cliente::on_ExtenderTiempo_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
 }

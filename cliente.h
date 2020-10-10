@@ -54,6 +54,8 @@ private slots:
 
     void on_pushButton_6_clicked();
 
+    void on_ExtenderTiempo_clicked();
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;
