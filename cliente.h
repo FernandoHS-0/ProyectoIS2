@@ -56,6 +56,20 @@ private slots:
 
     void on_ExtenderTiempo_clicked();
 
+    void on_espacio16_clicked();
+
+    void on_espacio17_clicked();
+
+    void on_espacio18_clicked();
+
+    void on_espacio19_clicked();
+
+    void on_espacio20_clicked();
+
+    void on_espacio21_clicked();
+
+    void on_espacio22_clicked();
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;
