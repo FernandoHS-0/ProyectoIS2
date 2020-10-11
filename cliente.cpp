@@ -120,7 +120,7 @@ Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
         extension.bindValue(":idU", sesionCliente->noC);
         if(extension.exec()){
             while(extension.next()){
-                if(extension.value(0).toDate() == QDate::currentDate() && extension.value(1).toString() != NULL){
+                if(extension.value(0).toDate() == QDate::currentDate() && !extension.value(1).toString().isNull()){
                     ui->ExtenderTiempo->setEnabled(1);
                     }
                 else{
@@ -177,36 +177,6 @@ void Cliente::on_agendarEst_clicked()
             conexion.close();
         }
     }
-/*
-    QMessageBox mensaje, info;
-    mensaje.setText(tr("¿Confirmar reservación?"));
-    info.setText(tr("Su reservación fue realizada"));
-    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
-    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-
-    mensaje.exec();
-    if(mensaje.clickedButton() == confirmar){
-        conexion.open();
-        QDate fechaR = ui->calendarioEst->selectedDate();
-        QTime llegada = ui->estLlegada->time(),
-                salida = ui->estSalida->time();
-        QSqlQuery reservar;
-        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 1), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
-        reservar.bindValue(":date", fechaR);
-        reservar.bindValue(":llegada", llegada);
-        reservar.bindValue(":salida", salida);
-        reservar.bindValue(":idU", sesionCliente->noC);
-        if(reservar.exec()){
-            info.exec();
-            qDebug() << "Reservacion realizada";
-            conexion.close();
-        }else{
-            qDebug() << "Puro chile con el query";
-        }
-    }
-*/
-
 }
 
 void Cliente::on_mensualInicio_clicked(const QDate &date)
@@ -488,4 +458,221 @@ void Cliente::on_pushButton_6_clicked()
 void Cliente::on_ExtenderTiempo_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
+}
+
+void Cliente::on_espacio16_clicked()
+{
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Confirmar reservación?"));
+    info.setText(tr("Su reservación fue realizada"));
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        conexion.open();
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+                salida = ui->estSalida->time();
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 16), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", sesionCliente->noC);
+        if(reservar.exec()){
+            info.exec();
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Puro chile con el query";
+        }
+    }
+}
+
+void Cliente::on_espacio17_clicked()
+{
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Confirmar reservación?"));
+    info.setText(tr("Su reservación fue realizada"));
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        conexion.open();
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+                salida = ui->estSalida->time();
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 17), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", sesionCliente->noC);
+        if(reservar.exec()){
+            info.exec();
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Puro chile con el query";
+        }
+    }
+}
+
+void Cliente::on_espacio18_clicked()
+{
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Confirmar reservación?"));
+    info.setText(tr("Su reservación fue realizada"));
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        conexion.open();
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+                salida = ui->estSalida->time();
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 18), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", sesionCliente->noC);
+        if(reservar.exec()){
+            info.exec();
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Puro chile con el query";
+        }
+    }
+}
+
+void Cliente::on_espacio19_clicked()
+{
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Confirmar reservación?"));
+    info.setText(tr("Su reservación fue realizada"));
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        conexion.open();
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+                salida = ui->estSalida->time();
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 19), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", sesionCliente->noC);
+        if(reservar.exec()){
+            info.exec();
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Puro chile con el query";
+        }
+    }
+}
+
+void Cliente::on_espacio20_clicked()
+{
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Confirmar reservación?"));
+    info.setText(tr("Su reservación fue realizada"));
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        conexion.open();
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+                salida = ui->estSalida->time();
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 20), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", sesionCliente->noC);
+        if(reservar.exec()){
+            info.exec();
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Puro chile con el query";
+        }
+    }
+}
+
+void Cliente::on_espacio21_clicked()
+{
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Confirmar reservación?"));
+    info.setText(tr("Su reservación fue realizada"));
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        conexion.open();
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+                salida = ui->estSalida->time();
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 21), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", sesionCliente->noC);
+        if(reservar.exec()){
+            info.exec();
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Puro chile con el query";
+        }
+    }
+}
+
+void Cliente::on_espacio22_clicked()
+{
+    QMessageBox mensaje, info;
+    mensaje.setText(tr("¿Confirmar reservación?"));
+    info.setText(tr("Su reservación fue realizada"));
+    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
+    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+
+    mensaje.exec();
+    if(mensaje.clickedButton() == confirmar){
+        conexion.open();
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+                salida = ui->estSalida->time();
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), Pago_idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 22), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", sesionCliente->noC);
+        if(reservar.exec()){
+            info.exec();
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Puro chile con el query";
+        }
+    }
 }
