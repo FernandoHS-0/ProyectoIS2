@@ -74,6 +74,8 @@ private slots:
 
     void on_pb_finalizasReserva_clicked();
 
+    void on_EstadoCuenta_2_clicked();
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;
@@ -84,6 +86,7 @@ private:
     QString nomb;
     QString ApellidoP;
     QString ApellidoM;
+    int tip_res;
 };
 
 #endif // CLIENTE_H

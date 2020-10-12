@@ -204,37 +204,31 @@ void Cliente::on_mensualInicio_selectionChanged()
 
 void Cliente::on_agendarMensual_clicked()
 {
-    conexion.open();
+    /* parte pago */
+    /* finaliza el pago y la reserva */
+    double costoM;
+    //obtener tarifa estandar mensual
+    QSqlQuery tarifaM;
+    tarifaM.prepare("SELECT  `Monto` FROM `tarifa` WHERE `idTarifa`=2");
+    tarifaM.exec();
+    tarifaM.first();
+    costoM=tarifaM.value(0).toDouble();
+    float montoTotal=costoM*240;
+    ui->lb_montoTotal->setText("$"+QString::number(montoTotal));
+
+
+    //conexion.open(); no necesario
     QDate date = ui->mensualInicio->selectedDate();
     QDate nueva(date.year(), date.month()+1, date.day());
     //QDate fechaR = ui->calendarioEst->selectedDate();
     /* MENSAJE CONFIRMACION RESERVACION MENSUAL */
-    QMessageBox mensaje, info;
-    mensaje.setText(tr("¿Confirmar reservación?"));
-    info.setText(tr("Su reservación fue realizada"));
-    QAbstractButton * confirmar = mensaje.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-    QAbstractButton * cancelar = mensaje.addButton(tr("Aceptar"), QMessageBox::NoRole);
-    QAbstractButton * aceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
+    int mensaje=QMessageBox::question(this,"Confirmación reserva mensual","¿Desea continuar con la reserva mensual?","Aceptar","Cancelar");
 
-    mensaje.exec();
-    if(mensaje.clickedButton() == confirmar){
-        QTime llegada(7,00,00),
-                salida(15,00,00);
-        QSqlQuery reservar;
-        reservar.prepare("INSERT INTO ReservacionMensual SET  idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), idPago = (SELECT idPago FROM Pago WHERE idPago = 1), NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 1), IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), FechaInicio = :dateI, FechaFin = :dateF, HoraEntrada = :llegada, HoraSalida = :salida,;");
-        //reservar.bindValue(":date", fechaR);
-        reservar.bindValue(":llegada", llegada);
-        reservar.bindValue(":salida", salida);
-        reservar.bindValue(":idU", sesionCliente->noC);
-        reservar.bindValue(":dateI", date);
-        reservar.bindValue(":dateF", nueva);
-        if(reservar.exec()){
-            info.exec();
-            qDebug() << "Reservacion realizada";
-            conexion.close();
-        }else{
-            qDebug() << "Fallo la reservacion";
-        }
+    if(mensaje == 0)
+    {
+        tip_res=2;
+        ui->stackedWidget->setCurrentIndex(4);
+        return;
     }
 }
 
@@ -640,6 +634,26 @@ void Cliente::on_espacio22_clicked()
     if(res==0) //si se confirma la reserva...
     {
         /* SECCION DE PAGO */
+        double costo;
+        //obtener tarifa estandar mensual
+        QSqlQuery tarifa;
+        tarifa.prepare("SELECT  `Monto` FROM `tarifa` WHERE `idTarifa`=1");
+        tarifa.exec();
+        tarifa.first();
+        costo=tarifa.value(0).toDouble();
+        //se capturan las horas y fecha de la reserva
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+               salida = ui->estSalida->time();
+        //obtener horas ocupadas
+        float horas=salida.hour()-llegada.hour(); //horas
+        float min=salida.minute()-llegada.minute(); //minutos
+        float hora=min/60+horas;  //horas con decimales del tiempo de estadía.
+
+        //calculo de monto total
+        float montoTotal=costo*hora;
+        ui->lb_montoTotal->setText("$"+QString::number(montoTotal));
+        tip_res=0;
         ui->stackedWidget->setCurrentIndex(4);
     }
 }
@@ -651,76 +665,153 @@ void Cliente::on_espacio26_clicked()
 
 void Cliente::on_pb_finalizasReserva_clicked()
 {
-    /* finaliza el pago y la reserva */
-    double costo;
-    //obtener tarifa estandar mensual
-    QSqlQuery tarifa;
-    tarifa.prepare("SELECT  `Monto` FROM `tarifa` WHERE `idTarifa`=1");
-    tarifa.exec();
-    tarifa.first();
-    costo=tarifa.value(0).toDouble();
-    //se capturan las horas y fecha de la reserva
-    QDate fechaR = ui->calendarioEst->date();
-    QTime llegada = ui->estLlegada->time(),
-           salida = ui->estSalida->time();
-    //obtener horas ocupadas
-    float horas=salida.hour()-llegada.hour(); //horas
-    float min=salida.minute()-llegada.minute(); //minutos
-    float hora=min/60+horas;  //horas con decimales del tiempo de estadía.
+    if(tip_res==0)
+    {
+        qDebug()<<"Reserva estandar";
+        /* finaliza el pago y la reserva */
+        double costo;
+        //obtener tarifa estandar mensual
+        QSqlQuery tarifa;
+        tarifa.prepare("SELECT  `Monto` FROM `tarifa` WHERE `idTarifa`=1");
+        tarifa.exec();
+        tarifa.first();
+        costo=tarifa.value(0).toDouble();
+        //se capturan las horas y fecha de la reserva
+        QDate fechaR = ui->calendarioEst->date();
+        QTime llegada = ui->estLlegada->time(),
+               salida = ui->estSalida->time();
+        //obtener horas ocupadas
+        float horas=salida.hour()-llegada.hour(); //horas
+        float min=salida.minute()-llegada.minute(); //minutos
+        float hora=min/60+horas;  //horas con decimales del tiempo de estadía.
 
-    //calculo de monto total
-    float montoTotal=costo*hora;
-    ui->lb_montoTotal->setText("$"+QString::number(montoTotal));
-    //captura de informacion de pago
-    QString numTar=ui->le_numTarjeta->text();
-    QString nombre=ui->le_nombreTitular->text();
-    QString cvv=ui->le_cvv->text();
-    QString fecha=ui->de_fechaExp->text();
+        //calculo de monto total
+        float montoTotal=costo*hora;
+        ui->lb_montoTotal->setText("$"+QString::number(montoTotal));
+        //captura de informacion de pago
+        QString numTar=ui->le_numTarjeta->text();
+        QString nombre=ui->le_nombreTitular->text();
+        QString cvv=ui->le_cvv->text();
+        QString fecha=ui->de_fechaExp->text();
 
-    //query insertar forma de pago
-    QSqlQuery metodo;
-    metodo.prepare("INSERT INTO `metododepago`(`IdUsuario`, `NoTarjeta`, `NombreTarjeta`, `FechaVencimiento`, `CodigoSeguridad`) "
-                   "VALUES (:numCliente,:numTarjeta,:titular,:fecha_exp,:cvv)");
-    metodo.bindValue(":numCliente",IDUsuario);
-    metodo.bindValue(":numTarjeta",numTar);
-    metodo.bindValue(":titular",nombre);
-    metodo.bindValue(":cvv",cvv);
-    metodo.bindValue(":fecha_exp",fecha);
-    metodo.exec();
-    //se recupera el id del metodopago
-    QSqlQuery pago;
-    pago.prepare("SELECT MAX(`idMetodoDePago`) FROM `metododepago`");
-    pago.exec();
-    pago.first();
-    QString idPago=pago.value(0).toString();
-    //se sube la informacion del pago restante (tabla pago)
-    QSqlQuery pago2;
-    pago2.prepare("INSERT INTO `pago`(`idPago`, `Fecha`, `Monto`, `IdUsuario`) "
-                  "VALUES (:idPago,:fecha,:monto,:idUsuario)");
-    pago2.bindValue(":idPago",idPago);
-    pago2.bindValue(":fecha",QDate::currentDate());
-    pago2.bindValue(":monto",QString::number(montoTotal));
-    pago2.bindValue(":idUsuario",IDUsuario);
-    pago2.exec();
-    /* SE SUBE LA INFORMACION Y REALIZA LA RESERVA */
-    QSqlQuery reservar;
-    reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), "
-                     "idPago = (SELECT idPago FROM Pago WHERE idPago = :idPago), "
-                     "NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 22), "
-                     "IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), "
-                     "Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
-    reservar.bindValue(":idPago",idPago);
-    reservar.bindValue(":date", fechaR);
-    reservar.bindValue(":llegada", llegada);
-    reservar.bindValue(":salida", salida);
-    reservar.bindValue(":idU", IDUsuario);
-    if(reservar.exec()){
-        QMessageBox::information(this,"Reservacion realizada.","Gracias por su reserva!","Aceptar");
-        qDebug() << "RESERVACION REALIZADA";
-        //conexion.close();
-    }else{
-        QMessageBox::information(this,"Reservacion rechazada.","Ocurrio un error, intentelo de nuevo.","Aceptar");
-        qDebug() << "RESERVACION FALLIDA";
+        //query insertar forma de pago
+        QSqlQuery metodo;
+        metodo.prepare("INSERT INTO `metododepago`(`IdUsuario`, `NoTarjeta`, `NombreTarjeta`, `FechaVencimiento`, `CodigoSeguridad`) "
+                       "VALUES (:numCliente,:numTarjeta,:titular,:fecha_exp,:cvv)");
+        metodo.bindValue(":numCliente",IDUsuario);
+        metodo.bindValue(":numTarjeta",numTar);
+        metodo.bindValue(":titular",nombre);
+        metodo.bindValue(":cvv",cvv);
+        metodo.bindValue(":fecha_exp",fecha);
+        metodo.exec();
+        //se recupera el id del metodopago
+        QSqlQuery pago;
+        pago.prepare("SELECT MAX(`idMetodoDePago`) FROM `metododepago`");
+        pago.exec();
+        pago.first();
+        QString idPago=pago.value(0).toString();
+        //se sube la informacion del pago restante (tabla pago)
+        QSqlQuery pago2;
+        pago2.prepare("INSERT INTO `pago`(`idPago`, `Fecha`, `Monto`, `IdUsuario`) "
+                      "VALUES (:idPago,:fecha,:monto,:idUsuario)");
+        pago2.bindValue(":idPago",idPago);
+        pago2.bindValue(":fecha",QDate::currentDate());
+        pago2.bindValue(":monto",QString::number(montoTotal));
+        pago2.bindValue(":idUsuario",IDUsuario);
+        pago2.exec();
+        /* SE SUBE LA INFORMACION Y REALIZA LA RESERVA ESTANDAR */
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO ReservacionUnica SET idTarifa = (SELECT idTarifa FROM Tarifa WHERE idTarifa = 1), "
+                         "idPago = (SELECT idPago FROM Pago WHERE idPago = :idPago), "
+                         "NoEspacio = (SELECT NoEspacio FROM Espacio WHERE NoEspacio = 22), "
+                         "IdUsuario = (SELECT IdUsuario FROM Usuario WHERE IdUsuario = :idU), "
+                         "Fecha = :date, HoraEntrada = :llegada, HoraSalida = :salida;");
+        reservar.bindValue(":idPago",idPago);
+        reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", IDUsuario);
+        if(reservar.exec()){
+            QMessageBox::information(this,"Reservacion realizada.","Gracias por su reserva!","Aceptar");
+            qDebug() << "RESERVACION REALIZADA";
+            //conexion.close();
+        }else{
+            QMessageBox::information(this,"Reservacion rechazada.","Ocurrio un error, intentelo de nuevo.","Aceptar");
+            qDebug() << "RESERVACION FALLIDA";
+        }
+    }
+    else
+    {   qDebug()<<"Reserva mensual";
+        /* finaliza el pago y la reserva */
+        double costoM;
+        //obtener tarifa estandar mensual
+        QSqlQuery tarifaM;
+        tarifaM.prepare("SELECT  `Monto` FROM `tarifa` WHERE `idTarifa`=2");
+        tarifaM.exec();
+        tarifaM.first();
+        costoM=tarifaM.value(0).toDouble();
+        float montoTotal=costoM*240;
+        ui->lb_montoTotal->setText("$"+QString::number(montoTotal));
+        //captura de informacion de pago
+        QString numTar=ui->le_numTarjeta->text();
+        QString nombre=ui->le_nombreTitular->text();
+        QString cvv=ui->le_cvv->text();
+        QString fecha=ui->de_fechaExp->text();
+
+        //query insertar forma de pago
+        QSqlQuery metodo;
+        metodo.prepare("INSERT INTO `metododepago`(`IdUsuario`, `NoTarjeta`, `NombreTarjeta`, `FechaVencimiento`, `CodigoSeguridad`) "
+                       "VALUES (:numCliente,:numTarjeta,:titular,:fecha_exp,:cvv)");
+        metodo.bindValue(":numCliente",IDUsuario);
+        metodo.bindValue(":numTarjeta",numTar);
+        metodo.bindValue(":titular",nombre);
+        metodo.bindValue(":cvv",cvv);
+        metodo.bindValue(":fecha_exp",fecha);
+        metodo.exec();
+        //se recupera el id del metodopago
+        QSqlQuery pago;
+        pago.prepare("SELECT MAX(`idMetodoDePago`) FROM `metododepago`");
+        pago.exec();
+        pago.first();
+        QString idPago=pago.value(0).toString();
+        //se sube la informacion del pago restante (tabla pago)
+        QSqlQuery pago2;
+        pago2.prepare("INSERT INTO `pago`(`idPago`, `Fecha`, `Monto`, `IdUsuario`) "
+                      "VALUES (:idPago,:fecha,:monto,:idUsuario)");
+        pago2.bindValue(":idPago",idPago);
+        pago2.bindValue(":fecha",QDate::currentDate());
+        pago2.bindValue(":monto",QString::number(montoTotal));
+        pago2.bindValue(":idUsuario",IDUsuario);
+        pago2.exec();
+
+        //se completa la reserva
+        QTime llegada(7,00,00),
+              salida(15,00,00);
+        //reserva mensual
+        QDate date = ui->mensualInicio->selectedDate();
+        QDate nueva(date.year(), date.month()+1, date.day());
+        QSqlQuery reservar;
+        reservar.prepare("INSERT INTO `reservacionmensual`(`idTarifa`, `idPago`, `NoEspacio`, `IdUsuario`, `FechaInicio`, `FechaFin`, `HoraEntrada`, `HoraSalida`) "
+                         "VALUES (2,:idPago,1,:idU,:dateI,:dateF,:llegada,:salida)");
+        //reservar.bindValue(":date", fechaR);
+        reservar.bindValue(":idPago",idPago);
+        reservar.bindValue(":llegada", llegada);
+        reservar.bindValue(":salida", salida);
+        reservar.bindValue(":idU", IDUsuario);
+        reservar.bindValue(":dateI", date);
+        reservar.bindValue(":dateF", nueva);
+        if(reservar.exec()){
+            // mensaje reserva
+            qDebug() << "Reservacion realizada";
+            conexion.close();
+        }else{
+            qDebug() << "Fallo la reservacion";
+        }
     }
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void Cliente::on_EstadoCuenta_2_clicked()
+{
+
 }
