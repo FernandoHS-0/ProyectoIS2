@@ -8,112 +8,123 @@
 #include <QTextDocument>
 #include <QDesktopServices>
 
-Cliente::Cliente(clienteContenido *ses, QWidget *parent) :
+Cliente::Cliente(QString idUsuario,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Cliente)
 {
-    sesionCliente = ses;
+    /* conexion base de datos */
     ui->setupUi(this);
     conexion = QSqlDatabase::addDatabase("QODBC");
     conexion.setUserName("root");
     conexion.setDatabaseName("ParkingALot");
+    if(conexion.open())
+            qDebug()<<"BASE DE DATOS CONECTADA EN CLIENTE";
+    else
+            qDebug()<<"ERROR CONEXION EN CLIENTE";
 
+    /* pasa el usuario en sesion */
+    IDUsuario=idUsuario;
+    /* -- PRECARGA DE DATOS --*/
     QStringList titulos;
     titulos << "ID Usuario" << "ID Reservacion" << "Num Espacio" << "Fecha " << "Hora Entrada " << "Hora Salida ";
     ui->tableWidget->setColumnCount(6);
     ui->tableWidget->setHorizontalHeaderLabels(titulos);
 
+    /* OBTIENE LAS RESERVAS UNICAS DEL USUARIO */
+    QSqlQuery Prueba;
+    if(Prueba.exec("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA "
+                   "FROM reservacionunica "
+                   "WHERE IDUSUARIO ="+IDUsuario)){
+        while(Prueba.next())
+        {
+            QString idUsuario = Prueba.value(0).toString();
+            QString idReserva = Prueba.value(1).toString();
+            QString NumEspacio = Prueba.value(2).toString();
+            QString Fecha = Prueba.value(3).toString();
+            QString HoraEntrada = Prueba.value(4).toString();
+            QString HoraSalida = Prueba.value(5).toString();
 
+            ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(idUsuario));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(idReserva));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(NumEspacio));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(Fecha));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(HoraEntrada));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(HoraSalida));
 
-     if(conexion.open()){
-         QSqlQuery Prueba;
-         IDUsuario = ses->getID();
-         if(Prueba.exec("Select IDUSUARIO,IDRESERVACIONUNICA,NOESPACIO,FECHA,HORAENTRADA,HORASALIDA from reservacionunica WHERE IDUSUARIO ="+IDUsuario )){
-             while(Prueba.next()){
-                 QString idUsuario = Prueba.value(0).toString();
-                 QString idReserva = Prueba.value(1).toString();
-                 QString NumEspacio = Prueba.value(2).toString();
-                 QString Fecha = Prueba.value(3).toString();
-                 QString HoraEntrada = Prueba.value(4).toString();
-                 QString HoraSalida = Prueba.value(5).toString();
-
-                 ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(idUsuario));
-                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(idReserva));
-                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(NumEspacio));
-                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(Fecha));
-                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(HoraEntrada));
-                 ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(HoraSalida));
-
-             }
-         }
-         Prueba.lastError();
-
-         QStringList titulos2;
-         ui->Registros->setColumnCount(4);
-         titulos2 << "Fecha" << "Hora de entrada" << "Hora de salida" << "Numero Reservacion";
-         ui->Registros->setHorizontalHeaderLabels(titulos2);
-         QSqlQuery Registros;
-         Registros.prepare("SELECT R.fecha, R.horaEntrada, R.horaSalida, R.IdReservacionUnica FROM usuario as U INNER JOIN cliente as C ON U.idUsuario=C.idUsuario INNER JOIN reservacionunica as R ON C.idUsuario=R.idUsuario WHERE U.idUsuario=:IdU;");
-         Registros.bindValue(":IdU", sesionCliente->noC);
-         if(Registros.exec()){
-           while(Registros.next()){
-                QString fec = Registros.value(0).toString();
-                QString he = Registros.value(1).toString();
-                QString hs = Registros.value(2).toString();
-                QString idr = Registros.value(3).toString();
-
-                 ui->Registros->insertRow(ui->Registros->rowCount());
-                 ui->Registros->setItem(ui->Registros->rowCount()-1,0,new QTableWidgetItem(fec));
-                 ui->Registros->setItem(ui->Registros->rowCount()-1,1,new QTableWidgetItem(he));
-                 ui->Registros->setItem(ui->Registros->rowCount()-1,2,new QTableWidgetItem(hs));
-                 ui->Registros->setItem(ui->Registros->rowCount()-1,3,new QTableWidgetItem(idr));
-
-                 ui->Reservaciones->addItem(Registros.value(3).toString());
-           }
-         }
-
-        //empieza el query
-        QSqlQuery Nombre;
-        QString Telefono;
-        QString direccion;
-        ui->EstadoCuentaWidget->setVisible(false);
-        ui->InformacionAdicional->setVisible(false);
-        Nombre.prepare("Select * from usuario where idUsuario='"+IDUsuario+"'");
-        Nombre.exec();
-        Nombre.next();
-        nomb=Nombre.value(1).toString();
-        ApellidoP=Nombre.value(2).toString();
-        ApellidoM=Nombre.value(3).toString();
-        Telefono=Nombre.value(5).toString();
-        direccion= Nombre.value(6).toString();
-        ui->LabelNombre->setText(nomb);
-        ui->ApellidoP->setText(ApellidoP);
-        ui->ApellidoM->setText(ApellidoM);
-        ui->Telefono->setText(Telefono);
-        ui->Direccion->setText(direccion);
-
-        bool overbook=1;
-        QList<QPushButton*> Espacios = {ui->espacio16, ui->espacio17, ui->espacio18, ui->espacio19, ui->espacio20, ui->espacio21, ui->espacio22, ui->espacio23, ui->espacio24, ui->espacio25, ui->espacio26, ui->espacio27, ui->espacio28, ui->espacio29, ui->espacio30, ui->espacio31, ui->espacio32, ui->espacio33, ui->espacio34, ui->espacio35, ui->espacio36, ui->espacio37, ui->espacio38, ui->espacio39, ui->espacio40, ui->espacio41, ui->espacio42, ui->espacio43, ui->espacio44, ui->espacio45, ui->espacio46, ui->espacio47, ui->espacio48, ui->espacio49, ui->espacio50, ui->espacio51, ui->espacio52, ui->espacio53, ui->espacio54, ui->espacio55, ui->espacio56, ui->espacio57, ui->espacio58, ui->espacio59, ui->espacio60};
-        QSqlQuery Lugares;
-        int iterador=0;
-        Lugares.prepare("SELECT Estado FROM Espacio WHERE NoEspacio > 15;");
-        Lugares.exec();
-        while(Lugares.next()){
-            if(Lugares.value(0).toString() != "Libre"){
-                Espacios[iterador]->setStyleSheet("QPushButton{border: 1px solid #ff2747; border-bottom: none; background-color: white;}");
-                Espacios[iterador]->setDisabled(1);
-            }else{
-                overbook = 0;
-            }
-            iterador++;
         }
+    }
+    Prueba.lastError();
+    /* obtiene los registros */
+     QStringList titulos2;
+     ui->Registros->setColumnCount(4);
+     titulos2 << "Fecha" << "Hora de entrada" << "Hora de salida" << "Numero Reservacion";
+     ui->Registros->setHorizontalHeaderLabels(titulos2);
+     QSqlQuery Registros;
+     Registros.prepare("SELECT R.fecha, R.horaEntrada, R.horaSalida, R.IdReservacionUnica "
+                       "FROM usuario as U INNER JOIN cliente as C ON U.idUsuario=C.idUsuario INNER JOIN reservacionunica as R ON C.idUsuario=R.idUsuario "
+                       "WHERE U.idUsuario=:IdU;");
+     Registros.bindValue(":IdU", IDUsuario);
+     if(Registros.exec()){
+       while(Registros.next()){
+            QString fec = Registros.value(0).toString();
+            QString he = Registros.value(1).toString();
+            QString hs = Registros.value(2).toString();
+            QString idr = Registros.value(3).toString();
 
-        if(overbook == 1){
-            ui->agendarEst->setEnabled(1);
+             ui->Registros->insertRow(ui->Registros->rowCount());
+             ui->Registros->setItem(ui->Registros->rowCount()-1,0,new QTableWidgetItem(fec));
+             ui->Registros->setItem(ui->Registros->rowCount()-1,1,new QTableWidgetItem(he));
+             ui->Registros->setItem(ui->Registros->rowCount()-1,2,new QTableWidgetItem(hs));
+             ui->Registros->setItem(ui->Registros->rowCount()-1,3,new QTableWidgetItem(idr));
+
+             ui->Reservaciones->addItem(Registros.value(3).toString());
+       }
+    }
+
+    /* CARGAR DATOS PERSONALES DEL USUARIO*/
+    QSqlQuery Nombre;
+    QString Telefono;
+    QString direccion;
+    ui->EstadoCuentaWidget->setVisible(false);
+    ui->InformacionAdicional->setVisible(false);
+    Nombre.prepare("Select * from usuario where idUsuario="+IDUsuario);
+    qDebug()<<IDUsuario;
+    Nombre.exec();
+    Nombre.first();
+    nomb=Nombre.value(1).toString();
+    ApellidoP=Nombre.value(2).toString();
+    ApellidoM=Nombre.value(3).toString();
+    Telefono=Nombre.value(5).toString();
+    direccion= Nombre.value(6).toString();
+    ui->LabelNombre->setText(nomb);
+    ui->ApellidoP->setText(ApellidoP);
+    ui->ApellidoM->setText(ApellidoM);
+    ui->Telefono->setText(Telefono);
+    ui->Direccion->setText(direccion);
+
+    /* OVERBOOK */
+    bool overbook=1;
+    QList<QPushButton*> Espacios = {ui->espacio16, ui->espacio17, ui->espacio18, ui->espacio19, ui->espacio20, ui->espacio21, ui->espacio22, ui->espacio23, ui->espacio24, ui->espacio25, ui->espacio26, ui->espacio27, ui->espacio28, ui->espacio29, ui->espacio30, ui->espacio31, ui->espacio32, ui->espacio33, ui->espacio34, ui->espacio35, ui->espacio36, ui->espacio37, ui->espacio38, ui->espacio39, ui->espacio40, ui->espacio41, ui->espacio42, ui->espacio43, ui->espacio44, ui->espacio45, ui->espacio46, ui->espacio47, ui->espacio48, ui->espacio49, ui->espacio50, ui->espacio51, ui->espacio52, ui->espacio53, ui->espacio54, ui->espacio55, ui->espacio56, ui->espacio57, ui->espacio58, ui->espacio59, ui->espacio60};
+    QSqlQuery Lugares;
+    int iterador=0;
+    Lugares.prepare("SELECT Estado FROM Espacio WHERE NoEspacio > 15;");
+    Lugares.exec();
+    while(Lugares.next())
+    {
+        if(Lugares.value(0).toString() != "Libre"){
+            Espacios[iterador]->setStyleSheet("QPushButton{border: 1px solid #ff2747; border-bottom: none; background-color: white;}");
+            Espacios[iterador]->setDisabled(1);
+        }else{
+            overbook = 0;
         }
-     }
+        iterador++;
+    }
+
+    if(overbook == 1)
+        ui->agendarEst->setEnabled(1);
 }
+
 
 Cliente::~Cliente()
 {
@@ -132,12 +143,14 @@ void Cliente::on_comboBox_currentIndexChanged(int index)
 
 void Cliente::on_agendarEst_clicked()
 {
+    /*  MENSAJE HACER OVERBOOK*/
     QMessageBox overbook;
     overbook.setText("Actualmente no se encuentran lugares disponibles. ¿Desea reservar en overbooking?\nEl reservar en overbooking no le asegura un lugar, su acceso esta sujeto a que otro usuario no se presente a su reservación, del cual se le cederá su lugar\n¿Esta de acuerdo con esto?");
     QAbstractButton * btnAceptar = overbook.addButton("Aceptar", QMessageBox::AcceptRole);
     QAbstractButton * btnCancelar = overbook.addButton("Cancelar", QMessageBox::NoRole);
     overbook.setIcon(QMessageBox::Information);
 
+    /* MENSAJE DE CONFIRMACION REALIZADA */
     QMessageBox confirmacion;
     confirmacion.setIcon(QMessageBox::Information);
     confirmacion.setText("Su reservación ha sido procesada correctamente.");
@@ -146,7 +159,7 @@ void Cliente::on_agendarEst_clicked()
     overbook.exec();
 
     if(overbook.clickedButton() == btnAceptar){
-        conexion.open();
+        //conexion.open();
         QDate fecha = ui->calendarioEst->date();
         QTime hLlegada = ui->estLlegada->time(),
               hSalida = ui->estSalida->time();
@@ -213,6 +226,7 @@ void Cliente::on_agendarMensual_clicked()
     QDate date = ui->mensualInicio->selectedDate();
     QDate nueva(date.year(), date.month()+1, date.day());
     //QDate fechaR = ui->calendarioEst->selectedDate();
+    /* MENSAJE CONFIRMACION RESERVACION MENSUAL */
     QMessageBox mensaje, info;
     mensaje.setText(tr("¿Confirmar reservación?"));
     info.setText(tr("Su reservación fue realizada"));

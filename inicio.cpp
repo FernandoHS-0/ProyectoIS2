@@ -1,15 +1,26 @@
 #include "inicio.h"
 #include "ui_inicio.h"
 
+#include <QMessageBox>
+
 Inicio::Inicio(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Inicio)
 {
     ui->setupUi(this);
+
+    /* conexion base de datos */
     conexion = QSqlDatabase::addDatabase("QODBC");
+    conexion.setPort(3306);
+    conexion.setHostName("localhost");
     conexion.setUserName("root");
+    conexion.setPassword("");
     conexion.setDatabaseName("ParkingALot");
 
+    if(conexion.open())
+        qDebug()<<"BASE DE DATOS CONECTADA EN INICIO";
+    else
+        qDebug()<<"ERROR CONEXION EN INICIO";
 }
 
 Inicio::~Inicio()
@@ -91,50 +102,58 @@ void Inicio::on_btnRegistarr_clicked()
 
 
 }
-
+/* iniciar sesion */
 void Inicio::on_pushButton_clicked()
 {
+    /* mensajes de error - usuario no encontrado */
     QMessageBox info;
     info.setText("Número de usuario no encontrado");
     QAbstractButton * acept = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-    int noCliente = ui->txtNoCliente->text().toInt();
-    QSqlQuery sesion;
-    conexion.open();
-    sesion.prepare("SELECT u.IdUsuario, u.Nombre, u.ApellidoP, u.apellidoM, u.FechaN, u.Telefono, u.Direccion, u.Matricula, c.Mensual FROM Usuario AS u INNER JOIN Cliente AS c ON u.IdUsuario = c.IdUsuario WHERE u.IdUsuario = :noC;");
-    sesion.bindValue(":noC", noCliente);
-    sesion.exec();
-    while (sesion.next()) {
-        qDebug() << "Query ejecutado";
-        QString idUsuario =  sesion.value(0).toString();
-        qDebug() << "Id devuelto: " << sesion.value(0).toInt();
-        if(sesion.value(0).toInt() != noCliente){
-            info.exec();
-            qDebug() << "Cliente no encontrado";
-        }else{
-            QString name = sesion.value(1).toString(),
-                    lastP = sesion.value(2).toString(),
-                    lastM = sesion.value(3).toString(),
-                    adress = sesion.value(6).toString(),
-                    mat = sesion.value(7).toString();
-            QDate dob = sesion.value(4).toDate();
-            int phone = sesion.value(5).toInt(),
-                    nCl = sesion.value(0).toInt(),
-                    month = sesion.value(7).toInt();
-            clienteContenido sesion(name, lastP, lastM, adress, dob, phone, nCl, month,idUsuario);
-            Cliente pd(&sesion, this);
-            pd.exec();
-        }
+
+    /* obtener numero de cliente */
+    QString log_cliente;
+    log_cliente=ui->txtNoCliente->text();
+
+    if(log_cliente=="")
+    {
+        /* mensaje error a pantalla */
+        qDebug()<<"Rellene el campo solicitado";
+        return;
     }
 
+    /* buscar cliente */
+    QSqlQuery login;
+    login.prepare("SELECT `IdUsuario` FROM `cliente` WHERE `IdUsuario`= :num_cliente");
+    login.bindValue(":num_cliente",log_cliente);
+    login.exec();
+    login.first();
+    if(login.value(0).toString()==log_cliente)
+    {
+        qDebug()<<"Se encontro el usuario";
+        Cliente pd(log_cliente,this);
+        this->hide();
+        pd.exec();
+        this->show();
+
+    }
+    else
+    {
+        qDebug()<<"No se pudo encontrar el usuario";
+        /* mensaje error a pantalla de usuario no encontrado */
+    }
 }
 
 void Inicio::on_BotonEntrarAlternativo_clicked()
 {
-
+    /* mensaje de error (defincicion)*/
     QMessageBox information;
     information.setText("Matricula no encontrada.");
     QAbstractButton * acept = information.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
     QString Matricula = ui->txtMatricula->text();
+
+    /* logeo
+     * por modificar
+    */
     QSqlQuery login;
     conexion.open();
     login.prepare("SELECT u.IdUsuario, u.Nombre, u.ApellidoP, u.apellidoM, u.FechaN, u.Telefono, u.Direccion, u.Matricula, c.Mensual FROM Usuario AS u INNER JOIN Cliente AS c ON u.IdUsuario = c.IdUsuario WHERE u.Matricula = :noC;");
@@ -158,8 +177,8 @@ void Inicio::on_BotonEntrarAlternativo_clicked()
                     nCl = login.value(0).toInt(),
                     month = login.value(7).toInt();
             clienteContenido login(name, lastP, lastM, adress, dob, phone, nCl, month,Mat);
-            Cliente pd(&login, this);
-            pd.exec();
+            //Cliente pd(this);
+            //pd.exec();
         }
     }
 

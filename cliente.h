@@ -18,7 +18,7 @@ class Cliente : public QDialog
     Q_OBJECT
 
 public:
-    explicit Cliente(clienteContenido *, QWidget *parent = nullptr);
+    explicit Cliente(QString,QWidget *parent = nullptr);
     ~Cliente();
 
 private slots:
