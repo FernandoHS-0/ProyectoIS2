@@ -105,11 +105,6 @@ void Inicio::on_btnRegistarr_clicked()
 /* iniciar sesion */
 void Inicio::on_pushButton_clicked()
 {
-    /* mensajes de error - usuario no encontrado */
-    QMessageBox info;
-    info.setText("Número de usuario no encontrado");
-    QAbstractButton * acept = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-
     /* obtener numero de cliente */
     QString log_cliente;
     log_cliente=ui->txtNoCliente->text();
@@ -118,6 +113,8 @@ void Inicio::on_pushButton_clicked()
     {
         /* mensaje error a pantalla */
         qDebug()<<"Rellene el campo solicitado";
+        QMessageBox::information(this,"Error","Inserte un numero de usuario","Aceptar");
+
         return;
     }
 
@@ -139,48 +136,36 @@ void Inicio::on_pushButton_clicked()
     else
     {
         qDebug()<<"No se pudo encontrar el usuario";
+         QMessageBox::information(this,"Error","Usuario no encontrado","Aceptar");
         /* mensaje error a pantalla de usuario no encontrado */
     }
 }
 
 void Inicio::on_BotonEntrarAlternativo_clicked()
 {
-    /* mensaje de error (defincicion)*/
-    QMessageBox information;
-    information.setText("Matricula no encontrada.");
-    QAbstractButton * acept = information.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
     QString Matricula = ui->txtMatricula->text();
+    if(Matricula=="")
+    {
+        QMessageBox::information(this,"Error","Ingrese una matricula valida.","Aceptar");
+        return;
+    }
 
-    /* logeo
-     * por modificar
-    */
     QSqlQuery login;
-    conexion.open();
     login.prepare("SELECT u.IdUsuario, u.Nombre, u.ApellidoP, u.apellidoM, u.FechaN, u.Telefono, u.Direccion, u.Matricula, c.Mensual FROM Usuario AS u INNER JOIN Cliente AS c ON u.IdUsuario = c.IdUsuario WHERE u.Matricula = :noC;");
     login.bindValue(":noC", Matricula);
     login.exec();
-    while (login.next()) {
-        qDebug() << "Query ejecutado";
-        QString Mat =  login.value(7).toString();
-        qDebug() << "Matricula devuelta: " << login.value(7).toString();
-        if(login.value(7).toString() != Matricula){
-            information.exec();
-            qDebug() << "Cliente no encontrado";
-        }else{
-            QString name = login.value(1).toString(),
-                    lastP = login.value(2).toString(),
-                    lastM = login.value(3).toString(),
-                    adress = login.value(6).toString(),
-                    mat = login.value(7).toString();
-            QDate dob = login.value(4).toDate();
-            int phone = login.value(5).toInt(),
-                    nCl = login.value(0).toInt(),
-                    month = login.value(7).toInt();
-            clienteContenido login(name, lastP, lastM, adress, dob, phone, nCl, month,Mat);
-            //Cliente pd(this);
-            //pd.exec();
-        }
+    login.first();
+    qDebug() << "Query ejecutado";
+    QString Mat =  login.value(7).toString();
+    qDebug() << "Matricula devuelta: " << login.value(7).toString();
+    if(login.value(7).toString() != Matricula){
+       QMessageBox::information(this,"Matricula no encontrada","Intentelo de nuevo","Aceptar");
+       qDebug() << "Cliente no encontrado";
+    }else{
+            Cliente pd(login.value(0).toString(),this);
+            this->hide();
+            pd.exec();
+            this->show();
     }
-
 }
 
