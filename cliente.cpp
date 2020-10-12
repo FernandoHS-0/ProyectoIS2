@@ -259,17 +259,9 @@ void Cliente::on_Actualizar_clicked()
 
     //
     //Mensaje de confirmacion para la actualizacion
-    QMessageBox message, informacion;
-    message.setText(tr("¿Confirmar actualizacion de horario?"));
-    informacion.setText(tr("Su actualizacion fue realizada exitosamente."));
-    QAbstractButton * confirmar = message.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-    QAbstractButton * cancelar = message.addButton(tr("Aceptar"), QMessageBox::NoRole);
-    QAbstractButton * aceptar = informacion.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-
-    message.exec();
-    if(message.clickedButton() == confirmar){
-
-        if(conexion.open()){
+    int mensaje=QMessageBox::question(this,"Extender tiempo de estadia","¿Confirmar actualizacion de horario?","Aceptar","Cancelar");
+    if(mensaje == 0){
+        if(conexion.isOpen()){
         QSqlQuery ExtenderReservacion;
             if(ExtenderReservacion.exec("Update reservacionunica set HoraSalida = '"+HoraSalidaAct+"' where "+IDUsuario))
             qDebug() << "Si calo";
@@ -277,9 +269,7 @@ void Cliente::on_Actualizar_clicked()
         else{
            qDebug() << "No calo";
         }
-
     }
-
 }
 
 void Cliente::on_modificar_clicked()
@@ -308,21 +298,9 @@ void Cliente::on_Reservaciones_currentTextChanged(const QString &arg1)
 
 void Cliente::on_pushButton_2_clicked()
 {
-    QMessageBox mensaje;
-        QMessageBox info;
 
-        mensaje.setText("Confirmar modificación de reservación");
-        info.setText("Su reservacion ha sido modificada");
-
-        mensaje.setIcon(QMessageBox::Warning);
-        QAbstractButton * btnSi = mensaje.addButton(tr("Confirmar"), QMessageBox::YesRole);
-        QAbstractButton * btnNo = mensaje.addButton(tr("Cancelar"), QMessageBox::NoRole);
-
-        info.setIcon(QMessageBox::Information);
-        QAbstractButton * btnAceptar = info.addButton(tr("Aceptar"), QMessageBox::AcceptRole);
-
-        mensaje.exec();
-        if(mensaje.clickedButton() == btnSi){
+        int mensaje=QMessageBox::warning(this,"Modificar reservacion.","¿Esta seguro de modificar su reservacion?","Aceptar","Cancelar");
+        if(mensaje == 0){
             QSqlQuery modificacion;
             QDate modf=ui->NuevaFecha->date();
             QTime modl=ui->NuevaLlegada->time(), mods=ui->NuevaSalida->time();
@@ -332,8 +310,9 @@ void Cliente::on_pushButton_2_clicked()
             modificacion.bindValue(":modl", modl);
             modificacion.bindValue(":mods", mods);
             modificacion.bindValue(":Idru", NoReservacion);
-            if(modificacion.exec()){
-                info.exec();
+            if(modificacion.exec())
+            {
+                QMessageBox::information(this,"Reservacion modificada","Su reservacion ha sido modificada","Aceptar");
             }
 
         }
