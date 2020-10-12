@@ -70,6 +70,10 @@ private slots:
 
     void on_espacio22_clicked();
 
+    void on_espacio26_clicked();
+
+    void on_pb_finalizasReserva_clicked();
+
 private:
     Ui::Cliente *ui;
     QSqlDatabase conexion;

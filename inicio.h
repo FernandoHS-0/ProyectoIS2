@@ -39,7 +39,7 @@ private slots:
 
     void on_RegistrarseAlt_clicked();
 
-    void obtenerUsuario();
+    //void obtenerUsuario();
 
 private:
     Ui::Inicio *ui;
