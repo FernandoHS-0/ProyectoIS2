@@ -692,7 +692,7 @@ void Cliente::on_pb_finalizasReserva_clicked()
         QString numTar=ui->le_numTarjeta->text();
         QString nombre=ui->le_nombreTitular->text();
         QString cvv=ui->le_cvv->text();
-        QString fecha=ui->de_fechaExp->text();
+        QDate fecha=ui->de_fechaExp->date();
 
         //query insertar forma de pago
         QSqlQuery metodo;
