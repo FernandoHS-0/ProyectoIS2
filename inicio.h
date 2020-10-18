@@ -39,9 +39,13 @@ private slots:
 
     void on_RegistrarseAlt_clicked();
 
+    void obtenerUsuario();
+
 private:
     Ui::Inicio *ui;
     QSqlDatabase conexion;
+    clienteContenido * actual;
+    Cliente * pd;
     int getIdCliente();
 };
 

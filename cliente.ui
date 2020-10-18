@@ -115,7 +115,7 @@ QPushButton:Hover{
     <string notr="true">background-color: #B8BDD9;</string>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QLabel" name="label">
@@ -2291,7 +2291,7 @@ QPushButton:Hover{
     </widget>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="ExtendeReservacion">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -2317,7 +2317,7 @@ QPushButton:Hover{
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="ExtenderTiempo">
    <property name="geometry">
     <rect>
      <x>0</x>
